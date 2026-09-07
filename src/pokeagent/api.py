@@ -36,3 +36,30 @@ def get_pokemon(name_or_id: str | int) -> dict[str, Any]:
         raise PokeAPIError("PokéAPI request timed out.") from exc
     except requests.RequestException as exc:
         raise PokeAPIError(f"PokéAPI request failed: {exc}") from exc
+def get_pokemon_list(limit: int = 20, offset: int = 0) -> dict[str, Any]:
+    """Get a paginated list of Pokémon from PokéAPI."""
+    if limit <= 0:
+        raise ValueError("Limit must be greater than zero.")
+
+    if offset < 0:
+        raise ValueError("Offset cannot be negative.")
+
+    url = f"{BASE_URL}/pokemon"
+    params = {
+        "limit": limit,
+        "offset": offset,
+    }
+
+    try:
+        response = requests.get(
+            url,
+            params=params,
+            timeout=DEFAULT_TIMEOUT,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    except requests.Timeout as exc:
+        raise PokeAPIError("PokéAPI request timed out.") from exc
+    except requests.RequestException as exc:
+        raise PokeAPIError(f"PokéAPI request failed: {exc}") from exc     
