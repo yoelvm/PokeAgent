@@ -11,6 +11,8 @@ requires-python = ">=3.11"
 dependencies = [
     "requests>=2.32,<3",
 ]
+[project.scripts]
+pokeagent = "pokeagent.cli:main"
 
 [project.optional-dependencies]
 dev = [
