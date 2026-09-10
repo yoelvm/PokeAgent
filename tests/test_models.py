@@ -42,4 +42,19 @@ def test_pokemon_converts_height_and_weight() -> None:
 
     assert pikachu.height_m == 0.4
     assert pikachu.weight_kg == 6.0
-    
+def test_pokemon_from_dict_includes_image_url() -> None:
+        data = {
+            "id": 25,
+            "name": "pikachu",
+            "height": 4,
+            "weight": 60,
+            "base_experience": 112,
+            "types": ["electric"],
+            "abilities": ["static"],
+            "stats": {"speed": 90},
+            "image_url": "https://example.com/pikachu.png",
+        }
+
+        pikachu = Pokemon.from_dict(data)
+
+        assert pikachu.image_url == "https://example.com/pikachu.png"    

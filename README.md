@@ -18,6 +18,12 @@ This project is designed as a foundation for future features such as a visual we
 - Data obtained from PokéAPI
 - Automated tests with pytest
 - Modular architecture prepared for future expansion
+- Visual web interface built with Streamlit
+- Official Pokémon artwork
+- Browse Kanto Pokémon visually by type
+- Open Pokémon detail cards directly from type results
+- Colored Pokémon type badges
+- Visual base-stat bars and total base stats
 
 ## Requirements
 
@@ -50,6 +56,26 @@ Type 'q' to quit.
 
 Search Pokemon:
 ```
+## Web Interface
+
+PokeAgent also includes a visual Streamlit interface.
+
+Start it with:
+
+```bash
+python -m streamlit run src/pokeagent/web.py
+```
+
+The web interface currently supports:
+
+- Search by Pokémon name or National Pokédex number
+- Official Pokémon artwork
+- Browse Pokémon by type
+- Interactive Pokémon selection
+- Type badges
+- Height, weight and base experience
+- Visual base-stat indicators
+- Total base stats
 
 ## Commands
 
@@ -179,7 +205,7 @@ Run the complete automated test suite with:
 python -m pytest -q
 ```
 
-The current test suite verifies repository loading, Pokémon models, search services, validation, and CLI formatting.
+The current automated test suite contains 14 tests.
 
 ## Data
 
@@ -199,8 +225,6 @@ Pokémon data is sourced from PokéAPI and simplified before being stored locall
 
 Planned future improvements include:
 
-- Visual web interface
-- Pokémon images and sprites
 - Additional search and filtering options
 - Johto and later generations
 - Moves

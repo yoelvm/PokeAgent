@@ -45,6 +45,10 @@ def simplify_pokemon(pokemon: dict[str, Any]) -> dict[str, Any]:
             item["stat"]["name"]: item["base_stat"]
             for item in pokemon["stats"]
         },
+        "image_url": (
+             pokemon["sprites"]["other"]["official-artwork"]["front_default"]
+            or pokemon["sprites"]["front_default"]
+         ),
     }
 
 
