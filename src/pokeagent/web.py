@@ -68,6 +68,9 @@ def main() -> None:
 
     service = PokedexService()
 
+    if "selected_pokemon_id" not in st.session_state:
+        st.session_state.selected_pokemon_id = None
+
     st.title("PokeAgent")
     st.caption("Kanto Pokédex — #001 to #151")
 
@@ -118,6 +121,12 @@ def main() -> None:
                     f"**#{pokemon.id:03d} "
                     f"{format_label(pokemon.name)}**"
                 )
+                if st.button(
+                     "View",
+                     key=f"view_{pokemon.id}",
+                     use_container_width=True,
+                ):
+                    st.session_state.selected_pokemon_id = pokemon.id
 
     st.divider()
 
@@ -129,25 +138,36 @@ def main() -> None:
 
         submitted = st.form_submit_button("Search")
 
-    if not submitted:
+    if submitted:
+        query = query.strip()
+
+        if not query:
+            st.warning(
+                "Please enter a Pokémon name or Pokédex number."
+            )
+            return
+
+        searched_pokemon = service.find_pokemon(query)
+
+        if searched_pokemon is None:
+            st.error(
+                f"No Pokémon matching '{query}' "
+                "was found in the Kanto Pokédex."
+            )
+            return
+
+        st.session_state.selected_pokemon_id = searched_pokemon.id
+
+    selected_pokemon_id = st.session_state.selected_pokemon_id
+
+    if selected_pokemon_id is None:
         return
 
-    query = query.strip()
-
-    if not query:
-        st.warning("Please enter a Pokémon name or Pokédex number.")
-        return
-
-    pokemon = service.find_pokemon(query)
+    pokemon = service.find_pokemon(selected_pokemon_id)
 
     if pokemon is None:
-        st.error(
-            f"No Pokémon matching '{query}' "
-            "was found in the Kanto Pokédex."
-        )
         return
-
-        st.divider()
+    st.divider()
 
     st.header(
         f"#{pokemon.id:03d} {format_label(pokemon.name)}"

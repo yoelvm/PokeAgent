@@ -32,6 +32,7 @@ class Pokemon:
             stats=data["stats"],
             image_url=data.get("image_url"),
         )
+
     @property
     def height_m(self) -> float:
         """Return the Pokémon height in metres."""
