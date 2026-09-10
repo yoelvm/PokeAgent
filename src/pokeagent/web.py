@@ -60,6 +60,12 @@ def main() -> None:
         f"#{pokemon.id:03d} {format_label(pokemon.name)}"
     )
 
+    if pokemon.image_url:
+        st.image(
+            pokemon.image_url,
+            width=300,
+        )
+
     types = ", ".join(
         format_label(pokemon_type)
         for pokemon_type in pokemon.types
