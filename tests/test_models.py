@@ -57,4 +57,31 @@ def test_pokemon_from_dict_includes_image_url() -> None:
 
         pikachu = Pokemon.from_dict(data)
 
-        assert pikachu.image_url == "https://example.com/pikachu.png"    
+        assert pikachu.image_url == "https://example.com/pikachu.png"
+def test_pokemon_from_dict_includes_evolutions() -> None:
+    data = {
+        "id": 133,
+        "name": "eevee",
+        "height": 3,
+        "weight": 65,
+        "base_experience": 65,
+        "types": ["normal"],
+        "abilities": ["run-away"],
+        "stats": {"speed": 55},
+        "image_url": "https://example.com/eevee.png",
+        "evolutions": [
+            "eevee",
+            "vaporeon",
+            "jolteon",
+            "flareon",
+        ],
+    }
+
+    eevee = Pokemon.from_dict(data)
+
+    assert eevee.evolutions == [
+        "eevee",
+        "vaporeon",
+        "jolteon",
+        "flareon",
+    ]    
