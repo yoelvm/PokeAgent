@@ -57,7 +57,48 @@ def render_type_badges(pokemon_types: list[str]) -> None:
         "".join(badges),
         unsafe_allow_html=True,
     )
+def render_effectiveness_badges(
+    effectiveness: dict[str, float],
+ ) -> None:
+    """Render type effectiveness values as colored badges."""
+    if not effectiveness:
+        st.write("None")
+        return
 
+    badges = []
+
+    for pokemon_type, multiplier in effectiveness.items():
+        color = TYPE_COLORS.get(
+            pokemon_type,
+            "#777777",
+        )
+
+        multiplier_text = (
+            str(int(multiplier))
+            if multiplier.is_integer()
+            else str(multiplier)
+        )
+
+        badges.append(
+            f"""
+            <span style="
+                background-color: {color};
+                color: white;
+                padding: 6px 10px;
+                border-radius: 14px;
+                font-weight: 600;
+                margin: 3px;
+                display: inline-block;
+            ">
+                {format_label(pokemon_type)} ×{multiplier_text}
+            </span>
+            """
+        )
+
+    st.markdown(
+        "".join(badges),
+        unsafe_allow_html=True,
+    )
 def main() -> None:
     """Run the PokeAgent web interface."""
     st.set_page_config(
@@ -243,6 +284,34 @@ def main() -> None:
         "Total Base Stats",
         total_stats,
     )
+    effectiveness = service.get_type_effectiveness(
+        pokemon.id
+    )
+
+    if effectiveness:
+        st.divider()
+
+        st.subheader("Type Effectiveness")
+
+        weakness_col, resistance_col, immunity_col = st.columns(3)
+
+        with weakness_col:
+            st.write("**Weaknesses**")
+            render_effectiveness_badges(
+                effectiveness["weaknesses"]
+            )
+
+        with resistance_col:
+            st.write("**Resistances**")
+            render_effectiveness_badges(
+                effectiveness["resistances"]
+            )
+
+        with immunity_col:
+            st.write("**Immunities**")
+            render_effectiveness_badges(
+                effectiveness["immunities"]
+            )
     if pokemon.evolutions:
         st.divider()
 

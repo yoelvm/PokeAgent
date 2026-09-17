@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from pokeagent.models import Pokemon
 from pokeagent.repository import PokemonRepository
+from pokeagent.type_effectiveness import (
+    get_type_effectiveness as calculate_type_effectiveness,
+)
 VALID_STATS = {
     "hp",
     "attack",
@@ -61,3 +64,16 @@ class PokedexService:
             if normalized_type in pokemon.types
             and pokemon.stats.get(normalized_stat, 0) >= minimum
         ]
+    def get_type_effectiveness(
+        self,
+        query: str | int,
+     ) -> dict[str, dict[str, float]] | None:
+        """Return defensive type effectiveness for a Pokémon."""
+        pokemon = self.find_pokemon(query)
+
+        if pokemon is None:
+            return None
+
+        return calculate_type_effectiveness(
+            pokemon.types
+        )

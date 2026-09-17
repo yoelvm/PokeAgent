@@ -106,4 +106,32 @@ def get_pokemon_list(limit: int = 20, offset: int = 0) -> dict[str, Any]:
     except requests.Timeout as exc:
         raise PokeAPIError("PokéAPI request timed out.") from exc
     except requests.RequestException as exc:
-        raise PokeAPIError(f"PokéAPI request failed: {exc}") from exc     
+        raise PokeAPIError(f"PokéAPI request failed: {exc}") from exc
+def get_type(name_or_id: str | int) -> dict[str, Any]:
+    """Get Pokémon type data from PokéAPI."""
+    identifier = str(name_or_id).strip().lower()
+
+    if not identifier:
+        raise ValueError("Type name or ID cannot be empty.")
+
+    url = f"{BASE_URL}/type/{identifier}"
+
+    try:
+        response = requests.get(url, timeout=DEFAULT_TIMEOUT)
+
+        if response.status_code == 404:
+            raise PokeAPIError(
+                f"Pokemon type '{name_or_id}' was not found."
+            )
+
+        response.raise_for_status()
+        return response.json()
+
+    except PokeAPIError:
+        raise
+    except requests.Timeout as exc:
+        raise PokeAPIError("PokéAPI request timed out.") from exc
+    except requests.RequestException as exc:
+        raise PokeAPIError(
+            f"PokéAPI request failed: {exc}"
+        ) from exc     

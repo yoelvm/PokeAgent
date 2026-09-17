@@ -26,6 +26,8 @@ This project is designed as a foundation for future features such as a visual we
 - Visual base-stat bars and total base stats
 - Kanto evolution chains
 - Evolution data filtered to the original 151 Pokémon
+- Pokémon type weaknesses, resistances and immunities
+- Dual-type defensive effectiveness calculations
 
 ## Requirements
 
@@ -79,6 +81,8 @@ The web interface currently supports:
 - Visual base-stat indicators
 - Total base stats
 - Pokémon evolution chains
+- Visual type-effectiveness information
+- Weakness, resistance and immunity multipliers
 
 ## Commands
 
@@ -232,7 +236,6 @@ Planned future improvements include:
 - Johto and later generations
 - Moves
 - Items
-- Type effectiveness
 - Game-specific Pokémon data
 - Team builder
 - Pokémon legality tools

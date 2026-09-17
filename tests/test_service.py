@@ -55,3 +55,26 @@ def test_invalid_stat_raises_value_error() -> None:
             "speeed",
             100,
         )
+def test_service_get_type_effectiveness(
+    monkeypatch,
+) -> None:
+    monkeypatch.setattr(
+        "pokeagent.service.calculate_type_effectiveness",
+        lambda pokemon_types: {
+            "weaknesses": {"ground": 2.0},
+            "resistances": {"electric": 0.5},
+            "immunities": {},
+        },
+    )
+
+    service = PokedexService()
+
+    effectiveness = service.get_type_effectiveness(25)
+
+    assert effectiveness is not None
+    assert effectiveness["weaknesses"] == {
+        "ground": 2.0,
+    }
+    assert effectiveness["resistances"] == {
+        "electric": 0.5,
+    }
