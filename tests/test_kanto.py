@@ -37,3 +37,47 @@ def test_simplify_pokemon_includes_official_artwork() -> None:
     assert pokemon["id"] == 25
     assert pokemon["name"] == "pikachu"
     assert pokemon["image_url"] == "https://example.com/official.png"
+def test_simplify_pokemon_includes_evolutions(
+    monkeypatch,
+ ) -> None:
+    monkeypatch.setattr(
+        "pokeagent.kanto.get_kanto_evolution_names",
+        lambda pokemon_id: ["pikachu", "raichu"],
+    )
+
+    raw_pokemon = {
+        "id": 25,
+        "name": "pikachu",
+        "height": 4,
+        "weight": 60,
+        "base_experience": 112,
+        "types": [
+            {"type": {"name": "electric"}},
+        ],
+        "abilities": [
+            {"ability": {"name": "static"}},
+        ],
+        "stats": [
+            {
+                "base_stat": 90,
+                "stat": {"name": "speed"},
+            },
+        ],
+        "sprites": {
+            "front_default": "https://example.com/sprite.png",
+            "other": {
+                "official-artwork": {
+                    "front_default": (
+                        "https://example.com/official.png"
+                    ),
+                },
+            },
+        },
+    }
+
+    pokemon = simplify_pokemon(raw_pokemon)
+
+    assert pokemon["evolutions"] == [
+        "pikachu",
+        "raichu",
+    ]

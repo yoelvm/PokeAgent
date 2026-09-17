@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from pokeagent.evolutions import get_kanto_evolution_names
 from pokeagent.api import get_pokemon
 
 
@@ -49,6 +50,7 @@ def simplify_pokemon(pokemon: dict[str, Any]) -> dict[str, Any]:
              pokemon["sprites"]["other"]["official-artwork"]["front_default"]
             or pokemon["sprites"]["front_default"]
          ),
+         "evolutions": get_kanto_evolution_names(pokemon["id"]),
     }
 
 

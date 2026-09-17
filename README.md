@@ -24,6 +24,8 @@ This project is designed as a foundation for future features such as a visual we
 - Open Pokémon detail cards directly from type results
 - Colored Pokémon type badges
 - Visual base-stat bars and total base stats
+- Kanto evolution chains
+- Evolution data filtered to the original 151 Pokémon
 
 ## Requirements
 
@@ -76,6 +78,7 @@ The web interface currently supports:
 - Height, weight and base experience
 - Visual base-stat indicators
 - Total base stats
+- Pokémon evolution chains
 
 ## Commands
 
@@ -229,7 +232,6 @@ Planned future improvements include:
 - Johto and later generations
 - Moves
 - Items
-- Evolutions
 - Type effectiveness
 - Game-specific Pokémon data
 - Team builder

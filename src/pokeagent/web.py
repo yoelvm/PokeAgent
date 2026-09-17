@@ -243,5 +243,18 @@ def main() -> None:
         "Total Base Stats",
         total_stats,
     )
+    if pokemon.evolutions:
+        st.divider()
+
+        st.subheader("Evolution Chain")
+
+        evolution_labels = [
+            format_label(name)
+            for name in pokemon.evolutions
+        ]
+
+        st.write(
+            " → ".join(evolution_labels)
+        )
 if __name__ == "__main__":
      main()

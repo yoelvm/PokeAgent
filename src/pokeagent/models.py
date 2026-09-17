@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 
@@ -17,6 +17,7 @@ class Pokemon:
     abilities: list[str]
     stats: dict[str, int]
     image_url: str | None = None
+    evolutions: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Pokemon:
@@ -31,6 +32,7 @@ class Pokemon:
             abilities=data["abilities"],
             stats=data["stats"],
             image_url=data.get("image_url"),
+            evolutions=data.get("evolutions", []),
         )
 
     @property
@@ -42,3 +44,4 @@ class Pokemon:
     def weight_kg(self) -> float:
         """Return the Pokémon weight in kilograms."""
         return self.weight / 10
+    
