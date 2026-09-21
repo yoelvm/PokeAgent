@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import streamlit as st
+from pokeagent.move_service import MoveService
 
 from pokeagent.service import PokedexService
 
@@ -24,7 +25,17 @@ TYPE_COLORS = {
     "steel": "#B7B7CE",
     "fairy": "#D685AD",
 }
+VERSION_GROUP_OPTIONS = {
+    "Red / Blue": "red-blue",
+    "Yellow": "yellow",
+}
 
+MOVE_METHOD_OPTIONS = {
+    "All Methods": None,
+    "Level Up": "level-up",
+    "Machine": "machine",
+    "Tutor": "tutor",
+}
 
 def format_label(value: str) -> str:
     """Convert API-style names into readable labels."""
@@ -108,6 +119,7 @@ def main() -> None:
     )
 
     service = PokedexService()
+    move_service = MoveService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
@@ -324,6 +336,93 @@ def main() -> None:
 
         st.write(
             " → ".join(evolution_labels)
+        )
+    st.divider()
+
+    st.subheader("Moves")
+
+    game_col, method_col = st.columns(2)
+
+    with game_col:
+        selected_game_label = st.selectbox(
+            "Game",
+            options=list(VERSION_GROUP_OPTIONS.keys()),
+            key=f"move_game_{pokemon.id}",
+        )
+
+    with method_col:
+        selected_method_label = st.selectbox(
+            "Learn Method",
+            options=list(MOVE_METHOD_OPTIONS.keys()),
+            key=f"move_method_{pokemon.id}",
+        )
+
+    selected_version_group = VERSION_GROUP_OPTIONS[
+        selected_game_label
+    ]
+
+    selected_method = MOVE_METHOD_OPTIONS[
+        selected_method_label
+    ]
+
+    with st.spinner("Loading moves..."):
+        moves = move_service.get_detailed_learnset(
+            pokemon.id,
+            selected_version_group,
+            selected_method,
+        )
+
+    if not moves:
+        st.info(
+            "No moves found for this game and learning method."
+        )
+    else:
+        move_rows = []
+
+        for learnset_move in moves:
+            move = learnset_move.move
+
+            level = (
+                learnset_move.level_learned_at
+                if learnset_move.method == "level-up"
+                else None
+            )
+
+            move_rows.append(
+                {
+                    "Move": format_label(move.name),
+                    "Level": level,
+                    "Method": format_label(
+                        learnset_move.method
+                    ),
+                    "Type": format_label(move.type),
+                    "Class": format_label(
+                        move.damage_class
+                    ),
+                    "Power": move.power,
+                    "Accuracy": move.accuracy,
+                    "PP": move.pp,
+                }
+            )
+
+        move_rows.sort(
+            key=lambda row: (
+                row["Level"]
+                if row["Level"] is not None
+                else 999,
+                row["Move"],
+            )
+        )
+
+        st.caption(
+            f"{selected_game_label} — "
+            f"{selected_method_label}"
+        )
+
+        st.dataframe(
+            move_rows,
+            use_container_width=True,
+            hide_index=True,
         )
 if __name__ == "__main__":
      main()
