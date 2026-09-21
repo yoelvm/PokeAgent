@@ -28,6 +28,10 @@ This project is designed as a foundation for future features such as a visual we
 - Evolution data filtered to the original 151 Pokémon
 - Pokémon type weaknesses, resistances and immunities
 - Dual-type defensive effectiveness calculations
+- Pokémon move data
+- Move type, power, accuracy, PP and damage class
+- Game-specific Pokémon learnsets
+- Learnset filtering by game and learning method
 
 ## Requirements
 
@@ -83,6 +87,10 @@ The web interface currently supports:
 - Pokémon evolution chains
 - Visual type-effectiveness information
 - Weakness, resistance and immunity multipliers
+- Pokémon move tables
+- Game selector for learnsets
+- Learning-method filters
+- Level-up, machine and tutor move data
 
 ## Commands
 
@@ -234,7 +242,6 @@ Planned future improvements include:
 
 - Additional search and filtering options
 - Johto and later generations
-- Moves
 - Items
 - Game-specific Pokémon data
 - Team builder
