@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import streamlit as st
 from pokeagent.move_service import MoveService
+from pokeagent.item_service import ItemService
 
 from pokeagent.service import PokedexService
 
@@ -120,9 +121,13 @@ def main() -> None:
 
     service = PokedexService()
     move_service = MoveService()
+    item_service = ItemService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
+
+    if "selected_item_query" not in st.session_state:
+        st.session_state.selected_item_query = None
 
     st.title("PokeAgent")
     st.caption("Kanto Pokédex — #001 to #151")
@@ -210,7 +215,76 @@ def main() -> None:
             return
 
         st.session_state.selected_pokemon_id = searched_pokemon.id
+    st.divider()
 
+    st.subheader("Item Search")
+
+    with st.form("item_search"):
+        item_query = st.text_input(
+            "Item name or PokéAPI ID",
+            placeholder="Example: potion or rare-candy",
+        )
+
+        item_submitted = st.form_submit_button(
+            "Search Item"
+        )
+
+    if item_submitted:
+        item_query = item_query.strip()
+
+        if not item_query:
+            st.warning("Please enter an item name or ID.")
+        else:
+            st.session_state.selected_item_query = item_query
+
+    selected_item_query = st.session_state.selected_item_query
+
+    if selected_item_query:
+        try:
+            item = item_service.find_item(
+                selected_item_query
+            )
+
+            st.markdown("### Item Details")
+
+            image_col, item_col = st.columns(
+                [1, 2]
+            )
+
+            with image_col:
+                if item.image_url:
+                    st.image(
+                        item.image_url,
+                        width=140,
+                    )
+
+            with item_col:
+                st.header(
+                    format_label(item.name)
+                )
+
+                st.write(
+                    f"**Category:** "
+                    f"{format_label(item.category)}"
+                )
+
+                if item.effect:
+                    st.info(item.effect)
+                else:
+                    st.write(
+                        "No effect description available."
+                    )
+
+            if item.prices:
+                st.write(
+                    f"**Price records:** "
+                    f"{len(item.prices)}"
+                )
+
+        except Exception as exc:
+            st.error(
+                f"Could not load item: {exc}"
+            )
     selected_pokemon_id = st.session_state.selected_pokemon_id
 
     if selected_pokemon_id is None:
