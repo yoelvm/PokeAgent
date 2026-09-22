@@ -32,6 +32,11 @@ This project is designed as a foundation for future features such as a visual we
 - Move type, power, accuracy, PP and damage class
 - Game-specific Pokémon learnsets
 - Learnset filtering by game and learning method
+- Pokémon item data
+- Item categories and effects
+- Item sprites
+- Item search by name or PokéAPI ID
+- User-friendly item search with spaces or hyphens
 
 ## Requirements
 
@@ -91,6 +96,9 @@ The web interface currently supports:
 - Game selector for learnsets
 - Learning-method filters
 - Level-up, machine and tutor move data
+- Item search
+- Item artwork
+- Item category and effect information
 
 ## Commands
 
@@ -242,7 +250,6 @@ Planned future improvements include:
 
 - Additional search and filtering options
 - Johto and later generations
-- Items
 - Game-specific Pokémon data
 - Team builder
 - Pokémon legality tools

@@ -84,4 +84,35 @@ class LearnsetMove:
     version_group: str
     method: str
     level_learned_at: int
+@dataclass
+class Item:
+    """Represent a Pokémon item."""
+
+    id: int
+    name: str
+    category: str
+    effect: str
+    image_url: str | None
+    prices: list[dict[str, Any]] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Item:
+        """Create an item from PokéAPI data."""
+        english_effect = next(
+            (
+                entry["short_effect"]
+                for entry in data.get("effect_entries", [])
+                if entry["language"]["name"] == "en"
+            ),
+            "",
+        )
+
+        return cls(
+            id=data["id"],
+            name=data["name"],
+            category=data["category"]["name"],
+            effect=english_effect,
+            image_url=data.get("sprites", {}).get("default"),
+            prices=data.get("prices", []),
+        )
     
