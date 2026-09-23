@@ -139,7 +139,9 @@ def get_type(name_or_id: str | int) -> dict[str, Any]:
         ) from exc     
 def get_move(name_or_id: str | int) -> dict[str, Any]:
     """Get Pokémon move data from PokéAPI."""
-    identifier = str(name_or_id).strip().lower()
+    identifier = "-".join(
+     str(name_or_id).strip().lower().split()
+    )
 
     if not identifier:
         raise ValueError("Move name or ID cannot be empty.")
