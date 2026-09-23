@@ -37,6 +37,11 @@ This project is designed as a foundation for future features such as a visual we
 - Item sprites
 - Item search by name or PokéAPI ID
 - User-friendly item search with spaces or hyphens
+- Tabbed web navigation for Pokédex, moves and items
+- Independent move search
+- More natural searches using spaces in names
+- Clear controls for Pokémon, moves and items
+- Improved web error handling
 
 ## Requirements
 
@@ -99,6 +104,11 @@ The web interface currently supports:
 - Item search
 - Item artwork
 - Item category and effect information
+- Separate Pokédex, Moves and Items tabs
+- Direct move lookup
+- User-friendly searches such as `Mr Mime`, `thunder wave` and `rare candy`
+- Clear-selection controls
+- Friendly API error messages
 
 ## Commands
 

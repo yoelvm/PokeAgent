@@ -26,7 +26,9 @@ class PokedexService:
         if isinstance(query, int):
             return self.repository.get_by_id(query)
 
-        normalized_query = query.strip()
+        normalized_query = "-".join(
+          str(query).strip().lower().replace(".", "").split()
+        )
 
         if normalized_query.isdigit():
             return self.repository.get_by_id(int(normalized_query))
