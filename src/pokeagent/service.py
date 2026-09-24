@@ -5,6 +5,7 @@ from pokeagent.repository import PokemonRepository
 from pokeagent.type_effectiveness import (
     get_type_effectiveness as calculate_type_effectiveness,
 )
+
 VALID_STATS = {
     "hp",
     "attack",

@@ -42,6 +42,12 @@ This project is designed as a foundation for future features such as a visual we
 - More natural searches using spaces in names
 - Clear controls for Pokémon, moves and items
 - Improved web error handling
+- Pokémon Team Builder
+- Add and remove Pokémon from teams
+- Six-Pokémon team limit
+- Duplicate Pokémon prevention
+- Team defensive type analysis
+- Shared weakness detection
 
 ## Requirements
 
@@ -109,6 +115,13 @@ The web interface currently supports:
 - User-friendly searches such as `Mr Mime`, `thunder wave` and `rare candy`
 - Clear-selection controls
 - Friendly API error messages
+- Team Builder tab
+- Pokémon team cards with artwork and type badges
+- Remove individual team members
+- Clear the full team
+- Defensive type analysis
+- Shared weakness warnings
+
 
 ## Commands
 
@@ -261,7 +274,6 @@ Planned future improvements include:
 - Additional search and filtering options
 - Johto and later generations
 - Game-specific Pokémon data
-- Team builder
 - Pokémon legality tools
 - AI-powered natural-language interaction
 
