@@ -115,4 +115,38 @@ class Item:
             image_url=data.get("sprites", {}).get("default"),
             prices=data.get("prices", []),
         )
+@dataclass
+class Team:
+    """Represent a Pokémon team."""
+
+    members: list[Pokemon] = field(default_factory=list)
+
+    @property
+    def is_full(self) -> bool:
+        """Return whether the team already has six Pokémon."""
+        return len(self.members) >= 6
+
+    def add(self, pokemon: Pokemon) -> bool:
+        """Add a Pokémon if the team is not full."""
+        if self.is_full:
+            return False
+
+        if any(member.id == pokemon.id for member in self.members):
+            return False
+
+        self.members.append(pokemon)
+        return True
+
+    def remove(self, pokemon_id: int) -> bool:
+        """Remove a Pokémon from the team by Pokédex ID."""
+        for index, member in enumerate(self.members):
+            if member.id == pokemon_id:
+                del self.members[index]
+                return True
+
+        return False
+
+    def clear(self) -> None:
+        """Remove all Pokémon from the team."""
+        self.members.clear()
     

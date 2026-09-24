@@ -4,6 +4,8 @@ import streamlit as st
 from pokeagent.move_service import MoveService
 from pokeagent.item_service import ItemService
 from pokeagent.api import PokeAPIError
+from pokeagent.models import Team
+from pokeagent.team_service import TeamService
 
 from pokeagent.service import PokedexService
 
@@ -123,6 +125,7 @@ def main() -> None:
     service = PokedexService()
     move_service = MoveService()
     item_service = ItemService()
+    team_service = TeamService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
@@ -133,11 +136,14 @@ def main() -> None:
     if "selected_move_query" not in st.session_state:
         st.session_state.selected_move_query = None
 
+    if "team" not in st.session_state:
+        st.session_state.team = Team()
+
     st.title("PokeAgent")
     st.caption("Kanto Pokédex — #001 to #151")
 
-    pokedex_tab, moves_tab, items_tab = st.tabs(
-        ["Pokédex", "Moves", "Items"]
+    pokedex_tab, team_tab, moves_tab, items_tab = st.tabs(
+        ["Pokédex", "Team Builder", "Moves", "Items"]
     )
     
 
@@ -607,6 +613,196 @@ def main() -> None:
                         hide_index=True,
                     )
 
+    
+    # ---------------------------------------------------------
+    # TEAM BUILDER TAB
+    # ---------------------------------------------------------
+
+    with team_tab:
+        st.subheader("Team Builder")
+
+        team = st.session_state.team
+
+        st.write(
+            f"**Team size: {len(team.members)} / 6**"
+        )
+
+        with st.form("team_add_pokemon"):
+            team_query = st.text_input(
+                "Pokémon name or Pokédex number",
+                placeholder="Example: Pikachu, Charizard or 143",
+            )
+
+            add_submitted = st.form_submit_button(
+                "Add Pokémon"
+            )
+
+        if add_submitted:
+            team_query = team_query.strip()
+
+            if not team_query:
+                st.warning(
+                    "Please enter a Pokémon name "
+                    "or Pokédex number."
+                )
+            else:
+                success, message = team_service.add_pokemon(
+                    team,
+                    team_query,
+                )
+
+                if success:
+                    st.success(
+                        format_label(message)
+                    )
+                else:
+                    st.warning(
+                        format_label(message)
+                    )
+
+        if team.members:
+            st.divider()
+
+            team_columns = st.columns(3)
+
+            for index, member in enumerate(
+                list(team.members)
+             ):
+                column = team_columns[index % 3]
+
+                with column:
+                    st.markdown(
+                        f"### #{member.id:03d} "
+                        f"{format_label(member.name)}"
+                    )
+
+                    if member.image_url:
+                        st.image(
+                            member.image_url,
+                            use_container_width=True,
+                        )
+
+                    render_type_badges(
+                        member.types
+                    )
+
+                    if st.button(
+                        "Remove",
+                        key=f"remove_team_{member.id}",
+                        use_container_width=True,
+                    ):
+                        team_service.remove_pokemon(
+                            team,
+                            member.id,
+                        )
+                        st.rerun()
+            
+                        st.divider()
+
+            st.subheader("Team Type Analysis")
+
+            st.caption(
+                "Defensive overview against each attacking type."
+            )
+
+            try:
+                with st.spinner(
+                    "Analyzing team type matchups..."
+                ):
+                    analysis = (
+                        team_service.analyze_type_defense(
+                            team
+                        )
+                    )
+
+                analysis_rows = []
+
+                for attacking_type, values in analysis.items():
+                    analysis_rows.append(
+                        {
+                            "Attack Type": format_label(
+                                attacking_type
+                            ),
+                            "Weak": values["weak"],
+                            "Resist": values["resist"],
+                            "Immune": values["immune"],
+                        }
+                    )
+
+                analysis_rows.sort(
+                    key=lambda row: (
+                        -row["Weak"],
+                        row["Attack Type"],
+                    )
+                )
+
+                st.dataframe(
+                    analysis_rows,
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                shared_weaknesses = (
+                    team_service.get_shared_weaknesses(
+                        team
+                    )
+                )
+
+                if shared_weaknesses:
+                    st.subheader("Shared Weaknesses")
+
+                    shared_rows = [
+                        {
+                            "Type": format_label(
+                                attacking_type
+                            ),
+                            "Pokémon Weak": count,
+                        }
+                        for attacking_type, count
+                        in shared_weaknesses.items()
+                    ]
+
+                    shared_rows.sort(
+                        key=lambda row: (
+                            -row["Pokémon Weak"],
+                            row["Type"],
+                        )
+                    )
+
+                    for row in shared_rows:
+                        st.warning(
+                            f"{row['Type']}: "
+                            f"{row['Pokémon Weak']} "
+                            "team members are weak"
+                        )
+
+                else:
+                    st.success(
+                        "No shared weaknesses detected."
+                    )
+
+            except PokeAPIError as exc:
+                st.warning(
+                    "Team type analysis could not "
+                    f"be loaded: {exc}"
+                )
+   
+            st.divider()
+
+            if st.button(
+                "Clear Team",
+                key="clear_team",
+            ):
+                team_service.clear_team(
+                    team
+                )
+                st.rerun()
+
+        else:
+            st.info(
+                "Your team is empty. "
+                "Add up to six Pokémon."
+            )
+    
     # -------------------------------------------------
     # MOVES TAB
     # -------------------------------------------------            
