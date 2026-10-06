@@ -6,6 +6,7 @@ from pokeagent.item_service import ItemService
 from pokeagent.api import PokeAPIError
 from pokeagent.models import Team
 from pokeagent.team_service import TeamService
+from pokeagent.ability_service import AbilityService
 
 from pokeagent.service import PokedexService
 
@@ -114,6 +115,55 @@ def render_effectiveness_badges(
         "".join(badges),
         unsafe_allow_html=True,
     )
+def render_ability_details(
+    ability_names: list[str],
+    ability_service: AbilityService,
+    hidden_abilities: list[str] | None = None,
+) -> None:
+    """Render detailed Pokémon ability information."""
+    hidden_abilities = hidden_abilities or []
+
+    for ability_name in ability_names:
+        try:
+            ability = ability_service.find_ability(
+                ability_name
+            )
+
+            label = format_label(ability.name)
+
+            if ability_name in hidden_abilities:
+                label += " — Hidden Ability"
+
+            with st.expander(label):
+                generation = (
+                    ability.generation
+                    .removeprefix("generation-")
+                    .upper()
+                )
+
+                st.write(
+                    f"**Generation:** {generation}"
+                )
+
+                if ability_name in hidden_abilities:
+                    st.write(
+                        "**Hidden Ability:** Yes"
+                    )
+
+                if ability.effect:
+                    st.write(
+                        ability.effect
+                    )
+                else:
+                    st.write(
+                        "No effect description available."
+                    )
+
+        except PokeAPIError as exc:
+            st.warning(
+                f"Could not load "
+                f"{format_label(ability_name)}: {exc}"
+            )
 def main() -> None:
     """Run the PokeAgent web interface."""
     st.set_page_config(
@@ -126,6 +176,7 @@ def main() -> None:
     move_service = MoveService()
     item_service = ItemService()
     team_service = TeamService()
+    ability_service = AbilityService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
@@ -138,12 +189,27 @@ def main() -> None:
 
     if "team" not in st.session_state:
         st.session_state.team = Team()
+        
+    if "selected_ability_query" not in st.session_state:
+        st.session_state.selected_ability_query = None
 
     st.title("PokeAgent")
     st.caption("Kanto Pokédex — #001 to #151")
 
-    pokedex_tab, team_tab, moves_tab, items_tab = st.tabs(
-        ["Pokédex", "Team Builder", "Moves", "Items"]
+    ( 
+        pokedex_tab,
+        team_tab,
+        moves_tab,
+        abilities_tab,
+        items_tab,
+     ) = st.tabs(
+        [
+            "Pokédex",
+            "Team Builder",
+            "Moves",
+            "Abilities",
+            "Items",
+        ]
     )
     
 
@@ -305,6 +371,11 @@ def main() -> None:
 
                     st.write(
                         f"**Abilities:** {abilities}"
+                    )
+                    render_ability_details(
+                       pokemon.abilities,
+                       ability_service,
+                       pokemon.hidden_abilities,
                     )
 
                     metric_col1, metric_col2 = (
@@ -802,10 +873,11 @@ def main() -> None:
                 "Your team is empty. "
                 "Add up to six Pokémon."
             )
-    
+     
     # -------------------------------------------------
     # MOVES TAB
-    # -------------------------------------------------            
+    # -------------------------------------------------
+            
 
     with moves_tab:
         st.subheader("Move Search")
@@ -898,6 +970,92 @@ def main() -> None:
                     f"Could not load move: {exc}"
                 )
 
+    # ---------------------------------------------------------
+    # ABILITIES TAB
+    # ---------------------------------------------------------
+
+    with abilities_tab:
+        st.subheader("Ability Search")
+
+        st.write(
+            "Search for a Pokémon ability "
+            "by name or PokéAPI ID."
+        )
+
+        with st.form("ability_search"):
+            ability_query = st.text_input(
+                "Ability name or PokéAPI ID",
+                placeholder=(
+                    "Example: static or lightning rod"
+                ),
+            )
+
+            ability_submitted = st.form_submit_button(
+                "Search Ability"
+            )
+
+        if st.button(
+            "Clear Ability",
+            key="clear_ability",
+        ):
+            st.session_state.selected_ability_query = None
+
+        if ability_submitted:
+            ability_query = ability_query.strip()
+
+            if not ability_query:
+                st.session_state.selected_ability_query = None
+
+                st.warning(
+                    "Please enter an ability name or ID."
+                )
+
+            else:
+                st.session_state.selected_ability_query = (
+                    ability_query
+                )
+
+        selected_ability_query = (
+            st.session_state.selected_ability_query
+        )
+
+        if selected_ability_query:
+            try:
+                ability = ability_service.find_ability(
+                    selected_ability_query
+                )
+
+                st.divider()
+
+                st.header(
+                    format_label(ability.name)
+                )
+
+                generation_number = (
+                    ability.generation
+                    .removeprefix("generation-")
+                    .upper()
+                )
+
+                st.write(
+                    f"**Generation:** "
+                    f"{generation_number}"
+                )
+
+                if ability.effect:
+                    st.info(
+                        ability.effect
+                    )
+                else:
+                    st.write(
+                        "No effect description available."
+                    )
+
+            except PokeAPIError as exc:
+                st.error(
+                    f"Could not load ability: {exc}"
+                )
+    
     # ---------------------------------------------------------
     # ITEMS TAB
     # ---------------------------------------------------------

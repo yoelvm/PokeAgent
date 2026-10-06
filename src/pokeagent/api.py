@@ -197,3 +197,38 @@ def get_item(name_or_id: str | int) -> dict[str, Any]:
         raise PokeAPIError(
             f"PokéAPI request failed: {exc}"
         ) from exc
+def get_ability(name_or_id: str | int) -> dict[str, Any]:
+    """Get Pokémon ability data from PokéAPI."""
+    identifier = "-".join(
+        str(name_or_id).strip().lower().split()
+    )
+
+    if not identifier:
+        raise ValueError("Ability name or ID cannot be empty.")
+
+    url = f"{BASE_URL}/ability/{identifier}"
+
+    try:
+        response = requests.get(
+            url,
+            timeout=DEFAULT_TIMEOUT,
+        )
+
+        if response.status_code == 404:
+            raise PokeAPIError(
+                f"Pokemon ability '{name_or_id}' was not found."
+            )
+
+        response.raise_for_status()
+        return response.json()
+
+    except PokeAPIError:
+        raise
+    except requests.Timeout as exc:
+        raise PokeAPIError(
+            "PokéAPI request timed out."
+        ) from exc
+    except requests.RequestException as exc:
+        raise PokeAPIError(
+            f"PokéAPI request failed: {exc}"
+        ) from exc

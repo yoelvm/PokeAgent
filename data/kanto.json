@@ -13,6 +13,9 @@
       "overgrow",
       "chlorophyll"
     ],
+    "hidden_abilities": [
+      "chlorophyll"
+    ],
     "stats": {
       "hp": 45,
       "attack": 49,
@@ -40,6 +43,9 @@
     ],
     "abilities": [
       "overgrow",
+      "chlorophyll"
+    ],
+    "hidden_abilities": [
       "chlorophyll"
     ],
     "stats": {
@@ -71,6 +77,9 @@
       "overgrow",
       "chlorophyll"
     ],
+    "hidden_abilities": [
+      "chlorophyll"
+    ],
     "stats": {
       "hp": 80,
       "attack": 82,
@@ -99,6 +108,9 @@
       "blaze",
       "solar-power"
     ],
+    "hidden_abilities": [
+      "solar-power"
+    ],
     "stats": {
       "hp": 39,
       "attack": 52,
@@ -125,6 +137,9 @@
     ],
     "abilities": [
       "blaze",
+      "solar-power"
+    ],
+    "hidden_abilities": [
       "solar-power"
     ],
     "stats": {
@@ -156,6 +171,9 @@
       "blaze",
       "solar-power"
     ],
+    "hidden_abilities": [
+      "solar-power"
+    ],
     "stats": {
       "hp": 78,
       "attack": 84,
@@ -182,6 +200,9 @@
     ],
     "abilities": [
       "torrent",
+      "rain-dish"
+    ],
+    "hidden_abilities": [
       "rain-dish"
     ],
     "stats": {
@@ -212,6 +233,9 @@
       "torrent",
       "rain-dish"
     ],
+    "hidden_abilities": [
+      "rain-dish"
+    ],
     "stats": {
       "hp": 59,
       "attack": 63,
@@ -238,6 +262,9 @@
     ],
     "abilities": [
       "torrent",
+      "rain-dish"
+    ],
+    "hidden_abilities": [
       "rain-dish"
     ],
     "stats": {
@@ -268,6 +295,9 @@
       "shield-dust",
       "run-away"
     ],
+    "hidden_abilities": [
+      "run-away"
+    ],
     "stats": {
       "hp": 45,
       "attack": 30,
@@ -295,6 +325,7 @@
     "abilities": [
       "shed-skin"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 50,
       "attack": 20,
@@ -322,6 +353,9 @@
     ],
     "abilities": [
       "compound-eyes",
+      "tinted-lens"
+    ],
+    "hidden_abilities": [
       "tinted-lens"
     ],
     "stats": {
@@ -353,6 +387,9 @@
       "shield-dust",
       "run-away"
     ],
+    "hidden_abilities": [
+      "run-away"
+    ],
     "stats": {
       "hp": 40,
       "attack": 35,
@@ -381,6 +418,7 @@
     "abilities": [
       "shed-skin"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 45,
       "attack": 25,
@@ -408,6 +446,9 @@
     ],
     "abilities": [
       "swarm",
+      "sniper"
+    ],
+    "hidden_abilities": [
       "sniper"
     ],
     "stats": {
@@ -440,6 +481,9 @@
       "tangled-feet",
       "big-pecks"
     ],
+    "hidden_abilities": [
+      "big-pecks"
+    ],
     "stats": {
       "hp": 40,
       "attack": 45,
@@ -468,6 +512,9 @@
     "abilities": [
       "keen-eye",
       "tangled-feet",
+      "big-pecks"
+    ],
+    "hidden_abilities": [
       "big-pecks"
     ],
     "stats": {
@@ -500,6 +547,9 @@
       "tangled-feet",
       "big-pecks"
     ],
+    "hidden_abilities": [
+      "big-pecks"
+    ],
     "stats": {
       "hp": 83,
       "attack": 80,
@@ -527,6 +577,9 @@
     "abilities": [
       "run-away",
       "guts",
+      "hustle"
+    ],
+    "hidden_abilities": [
       "hustle"
     ],
     "stats": {
@@ -557,6 +610,9 @@
       "guts",
       "hustle"
     ],
+    "hidden_abilities": [
+      "hustle"
+    ],
     "stats": {
       "hp": 55,
       "attack": 81,
@@ -583,6 +639,9 @@
     ],
     "abilities": [
       "keen-eye",
+      "sniper"
+    ],
+    "hidden_abilities": [
       "sniper"
     ],
     "stats": {
@@ -613,6 +672,9 @@
       "keen-eye",
       "sniper"
     ],
+    "hidden_abilities": [
+      "sniper"
+    ],
     "stats": {
       "hp": 65,
       "attack": 90,
@@ -639,6 +701,9 @@
     "abilities": [
       "intimidate",
       "shed-skin",
+      "unnerve"
+    ],
+    "hidden_abilities": [
       "unnerve"
     ],
     "stats": {
@@ -669,6 +734,9 @@
       "shed-skin",
       "unnerve"
     ],
+    "hidden_abilities": [
+      "unnerve"
+    ],
     "stats": {
       "hp": 60,
       "attack": 95,
@@ -694,6 +762,9 @@
     ],
     "abilities": [
       "static",
+      "lightning-rod"
+    ],
+    "hidden_abilities": [
       "lightning-rod"
     ],
     "stats": {
@@ -723,6 +794,9 @@
       "static",
       "lightning-rod"
     ],
+    "hidden_abilities": [
+      "lightning-rod"
+    ],
     "stats": {
       "hp": 60,
       "attack": 90,
@@ -750,6 +824,9 @@
       "sand-veil",
       "sand-rush"
     ],
+    "hidden_abilities": [
+      "sand-rush"
+    ],
     "stats": {
       "hp": 50,
       "attack": 75,
@@ -775,6 +852,9 @@
     ],
     "abilities": [
       "sand-veil",
+      "sand-rush"
+    ],
+    "hidden_abilities": [
       "sand-rush"
     ],
     "stats": {
@@ -805,6 +885,9 @@
       "rivalry",
       "hustle"
     ],
+    "hidden_abilities": [
+      "hustle"
+    ],
     "stats": {
       "hp": 55,
       "attack": 47,
@@ -832,6 +915,9 @@
     "abilities": [
       "poison-point",
       "rivalry",
+      "hustle"
+    ],
+    "hidden_abilities": [
       "hustle"
     ],
     "stats": {
@@ -864,6 +950,9 @@
       "rivalry",
       "sheer-force"
     ],
+    "hidden_abilities": [
+      "sheer-force"
+    ],
     "stats": {
       "hp": 90,
       "attack": 92,
@@ -893,6 +982,9 @@
       "rivalry",
       "hustle"
     ],
+    "hidden_abilities": [
+      "hustle"
+    ],
     "stats": {
       "hp": 46,
       "attack": 57,
@@ -920,6 +1012,9 @@
     "abilities": [
       "poison-point",
       "rivalry",
+      "hustle"
+    ],
+    "hidden_abilities": [
       "hustle"
     ],
     "stats": {
@@ -952,6 +1047,9 @@
       "rivalry",
       "sheer-force"
     ],
+    "hidden_abilities": [
+      "sheer-force"
+    ],
     "stats": {
       "hp": 81,
       "attack": 102,
@@ -979,6 +1077,9 @@
     "abilities": [
       "cute-charm",
       "magic-guard",
+      "friend-guard"
+    ],
+    "hidden_abilities": [
       "friend-guard"
     ],
     "stats": {
@@ -1009,6 +1110,9 @@
       "magic-guard",
       "unaware"
     ],
+    "hidden_abilities": [
+      "unaware"
+    ],
     "stats": {
       "hp": 95,
       "attack": 70,
@@ -1036,6 +1140,9 @@
       "flash-fire",
       "drought"
     ],
+    "hidden_abilities": [
+      "drought"
+    ],
     "stats": {
       "hp": 38,
       "attack": 41,
@@ -1061,6 +1168,9 @@
     ],
     "abilities": [
       "flash-fire",
+      "drought"
+    ],
+    "hidden_abilities": [
       "drought"
     ],
     "stats": {
@@ -1092,6 +1202,9 @@
       "competitive",
       "friend-guard"
     ],
+    "hidden_abilities": [
+      "friend-guard"
+    ],
     "stats": {
       "hp": 115,
       "attack": 45,
@@ -1119,6 +1232,9 @@
     "abilities": [
       "cute-charm",
       "competitive",
+      "frisk"
+    ],
+    "hidden_abilities": [
       "frisk"
     ],
     "stats": {
@@ -1149,6 +1265,9 @@
       "inner-focus",
       "infiltrator"
     ],
+    "hidden_abilities": [
+      "infiltrator"
+    ],
     "stats": {
       "hp": 40,
       "attack": 45,
@@ -1177,6 +1296,9 @@
       "inner-focus",
       "infiltrator"
     ],
+    "hidden_abilities": [
+      "infiltrator"
+    ],
     "stats": {
       "hp": 75,
       "attack": 80,
@@ -1203,6 +1325,9 @@
     ],
     "abilities": [
       "chlorophyll",
+      "run-away"
+    ],
+    "hidden_abilities": [
       "run-away"
     ],
     "stats": {
@@ -1234,6 +1359,9 @@
       "chlorophyll",
       "stench"
     ],
+    "hidden_abilities": [
+      "stench"
+    ],
     "stats": {
       "hp": 60,
       "attack": 65,
@@ -1261,6 +1389,9 @@
     ],
     "abilities": [
       "chlorophyll",
+      "effect-spore"
+    ],
+    "hidden_abilities": [
       "effect-spore"
     ],
     "stats": {
@@ -1293,6 +1424,9 @@
       "dry-skin",
       "damp"
     ],
+    "hidden_abilities": [
+      "damp"
+    ],
     "stats": {
       "hp": 35,
       "attack": 70,
@@ -1320,6 +1454,9 @@
     "abilities": [
       "effect-spore",
       "dry-skin",
+      "damp"
+    ],
+    "hidden_abilities": [
       "damp"
     ],
     "stats": {
@@ -1351,6 +1488,9 @@
       "tinted-lens",
       "run-away"
     ],
+    "hidden_abilities": [
+      "run-away"
+    ],
     "stats": {
       "hp": 60,
       "attack": 55,
@@ -1378,6 +1518,9 @@
     "abilities": [
       "shield-dust",
       "tinted-lens",
+      "wonder-skin"
+    ],
+    "hidden_abilities": [
       "wonder-skin"
     ],
     "stats": {
@@ -1408,6 +1551,9 @@
       "arena-trap",
       "sand-force"
     ],
+    "hidden_abilities": [
+      "sand-force"
+    ],
     "stats": {
       "hp": 10,
       "attack": 55,
@@ -1434,6 +1580,9 @@
     "abilities": [
       "sand-veil",
       "arena-trap",
+      "sand-force"
+    ],
+    "hidden_abilities": [
       "sand-force"
     ],
     "stats": {
@@ -1464,6 +1613,9 @@
       "technician",
       "unnerve"
     ],
+    "hidden_abilities": [
+      "unnerve"
+    ],
     "stats": {
       "hp": 40,
       "attack": 45,
@@ -1490,6 +1642,9 @@
     "abilities": [
       "limber",
       "technician",
+      "unnerve"
+    ],
+    "hidden_abilities": [
       "unnerve"
     ],
     "stats": {
@@ -1520,6 +1675,9 @@
       "cloud-nine",
       "swift-swim"
     ],
+    "hidden_abilities": [
+      "swift-swim"
+    ],
     "stats": {
       "hp": 50,
       "attack": 52,
@@ -1546,6 +1704,9 @@
     "abilities": [
       "damp",
       "cloud-nine",
+      "swift-swim"
+    ],
+    "hidden_abilities": [
       "swift-swim"
     ],
     "stats": {
@@ -1576,6 +1737,9 @@
       "anger-point",
       "defiant"
     ],
+    "hidden_abilities": [
+      "defiant"
+    ],
     "stats": {
       "hp": 40,
       "attack": 80,
@@ -1602,6 +1766,9 @@
     "abilities": [
       "vital-spirit",
       "anger-point",
+      "defiant"
+    ],
+    "hidden_abilities": [
       "defiant"
     ],
     "stats": {
@@ -1632,6 +1799,9 @@
       "flash-fire",
       "justified"
     ],
+    "hidden_abilities": [
+      "justified"
+    ],
     "stats": {
       "hp": 55,
       "attack": 70,
@@ -1658,6 +1828,9 @@
     "abilities": [
       "intimidate",
       "flash-fire",
+      "justified"
+    ],
+    "hidden_abilities": [
       "justified"
     ],
     "stats": {
@@ -1688,6 +1861,9 @@
       "damp",
       "swift-swim"
     ],
+    "hidden_abilities": [
+      "swift-swim"
+    ],
     "stats": {
       "hp": 40,
       "attack": 50,
@@ -1715,6 +1891,9 @@
     "abilities": [
       "water-absorb",
       "damp",
+      "swift-swim"
+    ],
+    "hidden_abilities": [
       "swift-swim"
     ],
     "stats": {
@@ -1747,6 +1926,9 @@
       "damp",
       "swift-swim"
     ],
+    "hidden_abilities": [
+      "swift-swim"
+    ],
     "stats": {
       "hp": 90,
       "attack": 95,
@@ -1774,6 +1956,9 @@
     "abilities": [
       "synchronize",
       "inner-focus",
+      "magic-guard"
+    ],
+    "hidden_abilities": [
       "magic-guard"
     ],
     "stats": {
@@ -1805,6 +1990,9 @@
       "inner-focus",
       "magic-guard"
     ],
+    "hidden_abilities": [
+      "magic-guard"
+    ],
     "stats": {
       "hp": 40,
       "attack": 35,
@@ -1832,6 +2020,9 @@
     "abilities": [
       "synchronize",
       "inner-focus",
+      "magic-guard"
+    ],
+    "hidden_abilities": [
       "magic-guard"
     ],
     "stats": {
@@ -1863,6 +2054,9 @@
       "no-guard",
       "steadfast"
     ],
+    "hidden_abilities": [
+      "steadfast"
+    ],
     "stats": {
       "hp": 70,
       "attack": 80,
@@ -1890,6 +2084,9 @@
     "abilities": [
       "guts",
       "no-guard",
+      "steadfast"
+    ],
+    "hidden_abilities": [
       "steadfast"
     ],
     "stats": {
@@ -1921,6 +2118,9 @@
       "no-guard",
       "steadfast"
     ],
+    "hidden_abilities": [
+      "steadfast"
+    ],
     "stats": {
       "hp": 90,
       "attack": 130,
@@ -1948,6 +2148,9 @@
     ],
     "abilities": [
       "chlorophyll",
+      "gluttony"
+    ],
+    "hidden_abilities": [
       "gluttony"
     ],
     "stats": {
@@ -1979,6 +2182,9 @@
       "chlorophyll",
       "gluttony"
     ],
+    "hidden_abilities": [
+      "gluttony"
+    ],
     "stats": {
       "hp": 65,
       "attack": 90,
@@ -2006,6 +2212,9 @@
     ],
     "abilities": [
       "chlorophyll",
+      "gluttony"
+    ],
+    "hidden_abilities": [
       "gluttony"
     ],
     "stats": {
@@ -2038,6 +2247,9 @@
       "liquid-ooze",
       "rain-dish"
     ],
+    "hidden_abilities": [
+      "rain-dish"
+    ],
     "stats": {
       "hp": 40,
       "attack": 40,
@@ -2067,6 +2279,9 @@
       "liquid-ooze",
       "rain-dish"
     ],
+    "hidden_abilities": [
+      "rain-dish"
+    ],
     "stats": {
       "hp": 80,
       "attack": 70,
@@ -2094,6 +2309,9 @@
     "abilities": [
       "rock-head",
       "sturdy",
+      "sand-veil"
+    ],
+    "hidden_abilities": [
       "sand-veil"
     ],
     "stats": {
@@ -2126,6 +2344,9 @@
       "sturdy",
       "sand-veil"
     ],
+    "hidden_abilities": [
+      "sand-veil"
+    ],
     "stats": {
       "hp": 55,
       "attack": 95,
@@ -2154,6 +2375,9 @@
     "abilities": [
       "rock-head",
       "sturdy",
+      "sand-veil"
+    ],
+    "hidden_abilities": [
       "sand-veil"
     ],
     "stats": {
@@ -2185,6 +2409,9 @@
       "flash-fire",
       "flame-body"
     ],
+    "hidden_abilities": [
+      "flame-body"
+    ],
     "stats": {
       "hp": 50,
       "attack": 85,
@@ -2211,6 +2438,9 @@
     "abilities": [
       "run-away",
       "flash-fire",
+      "flame-body"
+    ],
+    "hidden_abilities": [
       "flame-body"
     ],
     "stats": {
@@ -2242,6 +2472,9 @@
       "own-tempo",
       "regenerator"
     ],
+    "hidden_abilities": [
+      "regenerator"
+    ],
     "stats": {
       "hp": 90,
       "attack": 65,
@@ -2269,6 +2502,9 @@
     "abilities": [
       "oblivious",
       "own-tempo",
+      "regenerator"
+    ],
+    "hidden_abilities": [
       "regenerator"
     ],
     "stats": {
@@ -2300,6 +2536,9 @@
       "sturdy",
       "analytic"
     ],
+    "hidden_abilities": [
+      "analytic"
+    ],
     "stats": {
       "hp": 25,
       "attack": 35,
@@ -2327,6 +2566,9 @@
     "abilities": [
       "magnet-pull",
       "sturdy",
+      "analytic"
+    ],
+    "hidden_abilities": [
       "analytic"
     ],
     "stats": {
@@ -2358,6 +2600,9 @@
       "inner-focus",
       "defiant"
     ],
+    "hidden_abilities": [
+      "defiant"
+    ],
     "stats": {
       "hp": 52,
       "attack": 90,
@@ -2384,6 +2629,9 @@
     "abilities": [
       "run-away",
       "early-bird",
+      "tangled-feet"
+    ],
+    "hidden_abilities": [
       "tangled-feet"
     ],
     "stats": {
@@ -2415,6 +2663,9 @@
       "early-bird",
       "tangled-feet"
     ],
+    "hidden_abilities": [
+      "tangled-feet"
+    ],
     "stats": {
       "hp": 60,
       "attack": 110,
@@ -2441,6 +2692,9 @@
     "abilities": [
       "thick-fat",
       "hydration",
+      "ice-body"
+    ],
+    "hidden_abilities": [
       "ice-body"
     ],
     "stats": {
@@ -2472,6 +2726,9 @@
       "hydration",
       "ice-body"
     ],
+    "hidden_abilities": [
+      "ice-body"
+    ],
     "stats": {
       "hp": 90,
       "attack": 70,
@@ -2498,6 +2755,9 @@
     "abilities": [
       "stench",
       "sticky-hold",
+      "poison-touch"
+    ],
+    "hidden_abilities": [
       "poison-touch"
     ],
     "stats": {
@@ -2528,6 +2788,9 @@
       "sticky-hold",
       "poison-touch"
     ],
+    "hidden_abilities": [
+      "poison-touch"
+    ],
     "stats": {
       "hp": 105,
       "attack": 105,
@@ -2554,6 +2817,9 @@
     "abilities": [
       "shell-armor",
       "skill-link",
+      "overcoat"
+    ],
+    "hidden_abilities": [
       "overcoat"
     ],
     "stats": {
@@ -2585,6 +2851,9 @@
       "skill-link",
       "overcoat"
     ],
+    "hidden_abilities": [
+      "overcoat"
+    ],
     "stats": {
       "hp": 50,
       "attack": 95,
@@ -2612,6 +2881,7 @@
     "abilities": [
       "levitate"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 30,
       "attack": 35,
@@ -2640,6 +2910,7 @@
     "abilities": [
       "levitate"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 45,
       "attack": 50,
@@ -2668,6 +2939,7 @@
     "abilities": [
       "cursed-body"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 60,
       "attack": 65,
@@ -2698,6 +2970,9 @@
       "sturdy",
       "weak-armor"
     ],
+    "hidden_abilities": [
+      "weak-armor"
+    ],
     "stats": {
       "hp": 35,
       "attack": 45,
@@ -2723,6 +2998,9 @@
     "abilities": [
       "insomnia",
       "forewarn",
+      "inner-focus"
+    ],
+    "hidden_abilities": [
       "inner-focus"
     ],
     "stats": {
@@ -2753,6 +3031,9 @@
       "forewarn",
       "inner-focus"
     ],
+    "hidden_abilities": [
+      "inner-focus"
+    ],
     "stats": {
       "hp": 85,
       "attack": 73,
@@ -2779,6 +3060,9 @@
     "abilities": [
       "hyper-cutter",
       "shell-armor",
+      "sheer-force"
+    ],
+    "hidden_abilities": [
       "sheer-force"
     ],
     "stats": {
@@ -2809,6 +3093,9 @@
       "shell-armor",
       "sheer-force"
     ],
+    "hidden_abilities": [
+      "sheer-force"
+    ],
     "stats": {
       "hp": 55,
       "attack": 130,
@@ -2835,6 +3122,9 @@
     "abilities": [
       "soundproof",
       "static",
+      "aftermath"
+    ],
+    "hidden_abilities": [
       "aftermath"
     ],
     "stats": {
@@ -2865,6 +3155,9 @@
       "static",
       "aftermath"
     ],
+    "hidden_abilities": [
+      "aftermath"
+    ],
     "stats": {
       "hp": 60,
       "attack": 50,
@@ -2891,6 +3184,9 @@
     ],
     "abilities": [
       "chlorophyll",
+      "harvest"
+    ],
+    "hidden_abilities": [
       "harvest"
     ],
     "stats": {
@@ -2921,6 +3217,9 @@
       "chlorophyll",
       "harvest"
     ],
+    "hidden_abilities": [
+      "harvest"
+    ],
     "stats": {
       "hp": 95,
       "attack": 95,
@@ -2947,6 +3246,9 @@
     "abilities": [
       "rock-head",
       "lightning-rod",
+      "battle-armor"
+    ],
+    "hidden_abilities": [
       "battle-armor"
     ],
     "stats": {
@@ -2977,6 +3279,9 @@
       "lightning-rod",
       "battle-armor"
     ],
+    "hidden_abilities": [
+      "battle-armor"
+    ],
     "stats": {
       "hp": 60,
       "attack": 80,
@@ -3003,6 +3308,9 @@
     "abilities": [
       "limber",
       "reckless",
+      "unburden"
+    ],
+    "hidden_abilities": [
       "unburden"
     ],
     "stats": {
@@ -3033,6 +3341,9 @@
       "iron-fist",
       "inner-focus"
     ],
+    "hidden_abilities": [
+      "inner-focus"
+    ],
     "stats": {
       "hp": 50,
       "attack": 105,
@@ -3059,6 +3370,9 @@
     "abilities": [
       "own-tempo",
       "oblivious",
+      "cloud-nine"
+    ],
+    "hidden_abilities": [
       "cloud-nine"
     ],
     "stats": {
@@ -3088,6 +3402,9 @@
       "neutralizing-gas",
       "stench"
     ],
+    "hidden_abilities": [
+      "stench"
+    ],
     "stats": {
       "hp": 40,
       "attack": 65,
@@ -3114,6 +3431,9 @@
     "abilities": [
       "levitate",
       "neutralizing-gas",
+      "stench"
+    ],
+    "hidden_abilities": [
       "stench"
     ],
     "stats": {
@@ -3145,6 +3465,9 @@
       "rock-head",
       "reckless"
     ],
+    "hidden_abilities": [
+      "reckless"
+    ],
     "stats": {
       "hp": 80,
       "attack": 85,
@@ -3172,6 +3495,9 @@
     "abilities": [
       "lightning-rod",
       "rock-head",
+      "reckless"
+    ],
+    "hidden_abilities": [
       "reckless"
     ],
     "stats": {
@@ -3202,6 +3528,9 @@
       "serene-grace",
       "healer"
     ],
+    "hidden_abilities": [
+      "healer"
+    ],
     "stats": {
       "hp": 250,
       "attack": 5,
@@ -3227,6 +3556,9 @@
     "abilities": [
       "chlorophyll",
       "leaf-guard",
+      "regenerator"
+    ],
+    "hidden_abilities": [
       "regenerator"
     ],
     "stats": {
@@ -3256,6 +3588,9 @@
       "scrappy",
       "inner-focus"
     ],
+    "hidden_abilities": [
+      "inner-focus"
+    ],
     "stats": {
       "hp": 105,
       "attack": 95,
@@ -3281,6 +3616,9 @@
     "abilities": [
       "swift-swim",
       "sniper",
+      "damp"
+    ],
+    "hidden_abilities": [
       "damp"
     ],
     "stats": {
@@ -3311,6 +3649,9 @@
       "sniper",
       "damp"
     ],
+    "hidden_abilities": [
+      "damp"
+    ],
     "stats": {
       "hp": 55,
       "attack": 65,
@@ -3337,6 +3678,9 @@
     "abilities": [
       "swift-swim",
       "water-veil",
+      "lightning-rod"
+    ],
+    "hidden_abilities": [
       "lightning-rod"
     ],
     "stats": {
@@ -3367,6 +3711,9 @@
       "water-veil",
       "lightning-rod"
     ],
+    "hidden_abilities": [
+      "lightning-rod"
+    ],
     "stats": {
       "hp": 80,
       "attack": 92,
@@ -3393,6 +3740,9 @@
     "abilities": [
       "illuminate",
       "natural-cure",
+      "analytic"
+    ],
+    "hidden_abilities": [
       "analytic"
     ],
     "stats": {
@@ -3424,6 +3774,9 @@
       "natural-cure",
       "analytic"
     ],
+    "hidden_abilities": [
+      "analytic"
+    ],
     "stats": {
       "hp": 60,
       "attack": 75,
@@ -3451,6 +3804,9 @@
     "abilities": [
       "soundproof",
       "filter",
+      "technician"
+    ],
+    "hidden_abilities": [
       "technician"
     ],
     "stats": {
@@ -3481,6 +3837,9 @@
       "technician",
       "steadfast"
     ],
+    "hidden_abilities": [
+      "steadfast"
+    ],
     "stats": {
       "hp": 70,
       "attack": 110,
@@ -3509,6 +3868,9 @@
       "forewarn",
       "dry-skin"
     ],
+    "hidden_abilities": [
+      "dry-skin"
+    ],
     "stats": {
       "hp": 65,
       "attack": 50,
@@ -3535,6 +3897,9 @@
       "static",
       "vital-spirit"
     ],
+    "hidden_abilities": [
+      "vital-spirit"
+    ],
     "stats": {
       "hp": 65,
       "attack": 83,
@@ -3559,6 +3924,9 @@
     ],
     "abilities": [
       "flame-body",
+      "vital-spirit"
+    ],
+    "hidden_abilities": [
       "vital-spirit"
     ],
     "stats": {
@@ -3588,6 +3956,9 @@
       "mold-breaker",
       "moxie"
     ],
+    "hidden_abilities": [
+      "moxie"
+    ],
     "stats": {
       "hp": 65,
       "attack": 125,
@@ -3613,6 +3984,9 @@
     "abilities": [
       "intimidate",
       "anger-point",
+      "sheer-force"
+    ],
+    "hidden_abilities": [
       "sheer-force"
     ],
     "stats": {
@@ -3641,6 +4015,9 @@
       "swift-swim",
       "rattled"
     ],
+    "hidden_abilities": [
+      "rattled"
+    ],
     "stats": {
       "hp": 20,
       "attack": 10,
@@ -3667,6 +4044,9 @@
     ],
     "abilities": [
       "intimidate",
+      "moxie"
+    ],
+    "hidden_abilities": [
       "moxie"
     ],
     "stats": {
@@ -3698,6 +4078,9 @@
       "shell-armor",
       "hydration"
     ],
+    "hidden_abilities": [
+      "hydration"
+    ],
     "stats": {
       "hp": 130,
       "attack": 85,
@@ -3722,6 +4105,9 @@
     ],
     "abilities": [
       "limber",
+      "imposter"
+    ],
+    "hidden_abilities": [
       "imposter"
     ],
     "stats": {
@@ -3749,6 +4135,9 @@
     "abilities": [
       "run-away",
       "adaptability",
+      "anticipation"
+    ],
+    "hidden_abilities": [
       "anticipation"
     ],
     "stats": {
@@ -3780,6 +4169,9 @@
       "water-absorb",
       "hydration"
     ],
+    "hidden_abilities": [
+      "hydration"
+    ],
     "stats": {
       "hp": 130,
       "attack": 65,
@@ -3809,6 +4201,9 @@
       "volt-absorb",
       "quick-feet"
     ],
+    "hidden_abilities": [
+      "quick-feet"
+    ],
     "stats": {
       "hp": 65,
       "attack": 65,
@@ -3836,6 +4231,9 @@
     ],
     "abilities": [
       "flash-fire",
+      "guts"
+    ],
+    "hidden_abilities": [
       "guts"
     ],
     "stats": {
@@ -3868,6 +4266,9 @@
       "download",
       "analytic"
     ],
+    "hidden_abilities": [
+      "analytic"
+    ],
     "stats": {
       "hp": 65,
       "attack": 60,
@@ -3894,6 +4295,9 @@
     "abilities": [
       "swift-swim",
       "shell-armor",
+      "weak-armor"
+    ],
+    "hidden_abilities": [
       "weak-armor"
     ],
     "stats": {
@@ -3925,6 +4329,9 @@
       "shell-armor",
       "weak-armor"
     ],
+    "hidden_abilities": [
+      "weak-armor"
+    ],
     "stats": {
       "hp": 70,
       "attack": 60,
@@ -3952,6 +4359,9 @@
     "abilities": [
       "swift-swim",
       "battle-armor",
+      "weak-armor"
+    ],
+    "hidden_abilities": [
       "weak-armor"
     ],
     "stats": {
@@ -3983,6 +4393,9 @@
       "battle-armor",
       "weak-armor"
     ],
+    "hidden_abilities": [
+      "weak-armor"
+    ],
     "stats": {
       "hp": 60,
       "attack": 115,
@@ -4012,6 +4425,9 @@
       "pressure",
       "unnerve"
     ],
+    "hidden_abilities": [
+      "unnerve"
+    ],
     "stats": {
       "hp": 80,
       "attack": 105,
@@ -4037,6 +4453,9 @@
     "abilities": [
       "immunity",
       "thick-fat",
+      "gluttony"
+    ],
+    "hidden_abilities": [
       "gluttony"
     ],
     "stats": {
@@ -4066,6 +4485,9 @@
       "pressure",
       "snow-cloak"
     ],
+    "hidden_abilities": [
+      "snow-cloak"
+    ],
     "stats": {
       "hp": 90,
       "attack": 85,
@@ -4091,6 +4513,9 @@
     ],
     "abilities": [
       "pressure",
+      "static"
+    ],
+    "hidden_abilities": [
       "static"
     ],
     "stats": {
@@ -4120,6 +4545,9 @@
       "pressure",
       "flame-body"
     ],
+    "hidden_abilities": [
+      "flame-body"
+    ],
     "stats": {
       "hp": 90,
       "attack": 100,
@@ -4144,6 +4572,9 @@
     ],
     "abilities": [
       "shed-skin",
+      "marvel-scale"
+    ],
+    "hidden_abilities": [
       "marvel-scale"
     ],
     "stats": {
@@ -4172,6 +4603,9 @@
     ],
     "abilities": [
       "shed-skin",
+      "marvel-scale"
+    ],
+    "hidden_abilities": [
       "marvel-scale"
     ],
     "stats": {
@@ -4203,6 +4637,9 @@
       "inner-focus",
       "multiscale"
     ],
+    "hidden_abilities": [
+      "multiscale"
+    ],
     "stats": {
       "hp": 91,
       "attack": 134,
@@ -4231,6 +4668,9 @@
       "pressure",
       "unnerve"
     ],
+    "hidden_abilities": [
+      "unnerve"
+    ],
     "stats": {
       "hp": 106,
       "attack": 110,
@@ -4256,6 +4696,7 @@
     "abilities": [
       "synchronize"
     ],
+    "hidden_abilities": [],
     "stats": {
       "hp": 100,
       "attack": 100,

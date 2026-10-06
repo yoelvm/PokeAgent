@@ -48,6 +48,12 @@ This project is designed as a foundation for future features such as a visual we
 - Duplicate Pokémon prevention
 - Team defensive type analysis
 - Shared weakness detection
+- Pokémon ability data
+- Ability effects and generation information
+- Independent ability search
+- Natural ability searches with spaces
+- Hidden Ability detection
+- Detailed ability information in Pokémon profiles
 
 ## Requirements
 
@@ -121,6 +127,11 @@ The web interface currently supports:
 - Clear the full team
 - Defensive type analysis
 - Shared weakness warnings
+- Abilities tab
+- Direct ability lookup
+- Expandable ability details in Pokémon profiles
+- Hidden Ability labels
+- Ability generation and effect information
 
 
 ## Commands
