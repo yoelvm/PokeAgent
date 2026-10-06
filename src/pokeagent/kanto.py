@@ -42,6 +42,11 @@ def simplify_pokemon(pokemon: dict[str, Any]) -> dict[str, Any]:
             item["ability"]["name"]
             for item in pokemon["abilities"]
         ],
+        "hidden_abilities": [
+            item["ability"]["name"]
+            for item in pokemon["abilities"]
+            if item.get("is_hidden", False)
+        ],
         "stats": {
             item["stat"]["name"]: item["base_stat"]
             for item in pokemon["stats"]

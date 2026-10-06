@@ -16,8 +16,10 @@ class Pokemon:
     types: list[str]
     abilities: list[str]
     stats: dict[str, int]
+    
     image_url: str | None = None
     evolutions: list[str] = field(default_factory=list)
+    hidden_abilities: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Pokemon:
@@ -30,6 +32,7 @@ class Pokemon:
             base_experience=data["base_experience"],
             types=data["types"],
             abilities=data["abilities"],
+            hidden_abilities=data.get("hidden_abilities", []),
             stats=data["stats"],
             image_url=data.get("image_url"),
             evolutions=data.get("evolutions", []),
@@ -149,4 +152,31 @@ class Team:
     def clear(self) -> None:
         """Remove all Pokémon from the team."""
         self.members.clear()
+@dataclass
+class Ability:
+    """Represent a Pokémon ability."""
+
+    id: int
+    name: str
+    generation: str
+    effect: str
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Ability:
+        """Create an ability from PokéAPI data."""
+        english_effect = next(
+            (
+                entry["short_effect"]
+                for entry in data.get("effect_entries", [])
+                if entry["language"]["name"] == "en"
+            ),
+            "",
+        )
+
+        return cls(
+            id=data["id"],
+            name=data["name"],
+            generation=data["generation"]["name"],
+            effect=english_effect,
+        )
     
