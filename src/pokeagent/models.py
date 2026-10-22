@@ -179,4 +179,32 @@ class Ability:
             generation=data["generation"]["name"],
             effect=english_effect,
         )
+
+@dataclass
+class StatTraining:
+    """Represent IVs and EVs for a Pokémon."""
+
+    ivs: dict[str, int] = field(default_factory=dict)
+    evs: dict[str, int] = field(default_factory=dict)
+
+    def validate(self) -> None:
+        """Validate IV and EV limits."""
+        for stat_name, value in self.ivs.items():
+            if value < 0 or value > 31:
+                raise ValueError(
+                    f"IV for {stat_name} must be between 0 and 31."
+                )
+
+        for stat_name, value in self.evs.items():
+            if value < 0 or value > 252:
+                raise ValueError(
+                    f"EV for {stat_name} must be between 0 and 252."
+                )
+
+        total_evs = sum(self.evs.values())
+
+        if total_evs > 510:
+            raise ValueError(
+                "Total EVs cannot exceed 510."
+            )
     

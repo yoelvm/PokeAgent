@@ -4,11 +4,14 @@ import streamlit as st
 from pokeagent.move_service import MoveService
 from pokeagent.item_service import ItemService
 from pokeagent.api import PokeAPIError
-from pokeagent.models import Team
+
+from pokeagent.models import StatTraining, Team
 from pokeagent.team_service import TeamService
 from pokeagent.ability_service import AbilityService
-
 from pokeagent.service import PokedexService
+
+from pokeagent.natures import NATURES
+from pokeagent.stat_calculator import calculate_pokemon_stats
 
 TYPE_COLORS = {
     "normal": "#A8A77A",
@@ -119,7 +122,7 @@ def render_ability_details(
     ability_names: list[str],
     ability_service: AbilityService,
     hidden_abilities: list[str] | None = None,
-) -> None:
+ ) -> None:
     """Render detailed Pokémon ability information."""
     hidden_abilities = hidden_abilities or []
 
@@ -768,7 +771,169 @@ def main() -> None:
                         )
                         st.rerun()
             
-                        st.divider()
+            st.divider()
+
+            st.subheader("Stat Builder")
+
+            selected_member_id = st.selectbox(
+                "Configure Pokémon",
+                options=[
+                    member.id
+                    for member in team.members
+                ],
+                format_func=lambda pokemon_id: (
+                    format_label(
+                        next(
+                            member.name
+                            for member in team.members
+                            if member.id == pokemon_id
+                        )
+                    )
+                ),
+                key="stat_builder_member",
+            )
+
+            selected_member = next(
+                member
+                for member in team.members
+                if member.id == selected_member_id
+            )
+
+            settings_col1, settings_col2 = st.columns(2)
+
+            with settings_col1:
+                level = st.number_input(
+                    "Level",
+                    min_value=1,
+                    max_value=100,
+                    value=50,
+                    step=1,
+                    key=f"level_{selected_member.id}",
+                )
+
+            with settings_col2:
+                nature = st.selectbox(
+                    "Nature",
+                    options=list(NATURES.keys()),
+                    index=list(NATURES.keys()).index(
+                        "hardy"
+                    ),
+                    format_func=format_label,
+                    key=f"nature_{selected_member.id}",
+                )
+
+            st.write("### IVs")
+
+            iv_columns = st.columns(3)
+
+            stat_names = [
+                "hp",
+                "attack",
+                "defense",
+                "special-attack",
+                "special-defense",
+                "speed",
+            ]
+
+            ivs = {}
+
+            for index, stat_name in enumerate(
+                stat_names
+             ):
+                with iv_columns[index % 3]:
+                    ivs[stat_name] = st.number_input(
+                        f"{format_label(stat_name)} IV",
+                        min_value=0,
+                        max_value=31,
+                        value=31,
+                        step=1,
+                        key=(
+                            f"iv_{selected_member.id}_"
+                            f"{stat_name}"
+                        ),
+                    )
+
+            st.write("### EVs")
+
+            ev_columns = st.columns(3)
+
+            evs = {}
+
+            for index, stat_name in enumerate(
+                stat_names
+             ):
+                with ev_columns[index % 3]:
+                    evs[stat_name] = st.number_input(
+                        f"{format_label(stat_name)} EV",
+                        min_value=0,
+                        max_value=252,
+                        value=0,
+                        step=4,
+                        key=(
+                            f"ev_{selected_member.id}_"
+                            f"{stat_name}"
+                        ),
+                    )
+
+            total_evs = sum(evs.values())
+
+            st.write(
+                f"**Total EVs: {total_evs} / 510**"
+            )
+
+            st.progress(
+                min(total_evs / 510, 1.0)
+            )
+
+            if total_evs > 510:
+                st.error(
+                    f"EV limit exceeded by "
+                    f"{total_evs - 510} points."
+                )
+
+            elif total_evs == 510:
+                st.success(
+                    "Maximum EV total reached."
+                )
+
+            else:
+                st.caption(
+                    f"{510 - total_evs} EVs remaining."
+                )
+            training = StatTraining(
+                ivs=ivs,
+                evs=evs,
+            )
+
+            try:
+                calculated_stats = (
+                    calculate_pokemon_stats(
+                        selected_member,
+                        training,
+                        int(level),
+                        nature,
+                    )
+                )
+
+                st.write("### Calculated Stats")
+
+                stat_columns = st.columns(3)
+
+                for index, stat_name in enumerate(
+                    stat_names
+                ):
+                    with stat_columns[index % 3]:
+                        st.metric(
+                            format_label(stat_name),
+                            calculated_stats[
+                                stat_name
+                            ],
+                        )
+
+            except ValueError as exc:
+                st.error(str(exc))
+            
+            st.divider()
 
             st.subheader("Team Type Analysis")
 
