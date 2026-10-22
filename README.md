@@ -54,6 +54,13 @@ This project is designed as a foundation for future features such as a visual we
 - Natural ability searches with spaces
 - Hidden Ability detection
 - Detailed ability information in Pokémon profiles
+- Pokémon nature modifiers
+- IV and EV configuration
+- IV validation from 0 to 31
+- EV validation up to 252 per stat and 510 total
+- Level-based Pokémon stat calculation
+- Nature-aware final stat calculation
+- Competitive stat builder
 
 ## Requirements
 
@@ -132,6 +139,12 @@ The web interface currently supports:
 - Expandable ability details in Pokémon profiles
 - Hidden Ability labels
 - Ability generation and effect information
+- Team Builder stat configuration
+- Level selector
+- Nature selector
+- IV and EV editors
+- Live calculated Pokémon stats
+- EV usage meter and limit warnings
 
 
 ## Commands
