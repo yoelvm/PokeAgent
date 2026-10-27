@@ -207,4 +207,29 @@ class StatTraining:
             raise ValueError(
                 "Total EVs cannot exceed 510."
             )
+
+@dataclass
+class GameVersionGroup:
+    """Represent a Pokémon game version group."""
+
+    id: int
+    name: str
+    generation: str
+    versions: list[str]
+
+    @classmethod
+    def from_dict(
+        cls,
+        data: dict[str, Any],
+    ) -> GameVersionGroup:
+        """Create a version group from PokéAPI data."""
+        return cls(
+            id=data["id"],
+            name=data["name"],
+            generation=data["generation"]["name"],
+            versions=[
+                version["name"]
+                for version in data["versions"]
+            ],
+        )
     

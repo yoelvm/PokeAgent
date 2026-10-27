@@ -9,6 +9,7 @@ from pokeagent.models import StatTraining, Team
 from pokeagent.team_service import TeamService
 from pokeagent.ability_service import AbilityService
 from pokeagent.service import PokedexService
+from pokeagent.game_data_service import GameDataService
 
 from pokeagent.natures import NATURES
 from pokeagent.stat_calculator import calculate_pokemon_stats
@@ -36,6 +37,21 @@ TYPE_COLORS = {
 VERSION_GROUP_OPTIONS = {
     "Red / Blue": "red-blue",
     "Yellow": "yellow",
+}
+GAME_AVAILABILITY_OPTIONS = {
+    "Red / Blue": "red-blue",
+    "Yellow": "yellow",
+    "Gold / Silver": "gold-silver",
+    "Crystal": "crystal",
+    "Ruby / Sapphire": "ruby-sapphire",
+    "Emerald": "emerald",
+    "Diamond / Pearl": "diamond-pearl",
+    "Platinum": "platinum",
+    "Black / White": "black-white",
+    "X / Y": "x-y",
+    "Sun / Moon": "sun-moon",
+    "Sword / Shield": "sword-shield",
+    "Scarlet / Violet": "scarlet-violet",
 }
 
 MOVE_METHOD_OPTIONS = {
@@ -180,6 +196,7 @@ def main() -> None:
     item_service = ItemService()
     team_service = TeamService()
     ability_service = AbilityService()
+    game_data_service = GameDataService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
@@ -196,21 +213,26 @@ def main() -> None:
     if "selected_ability_query" not in st.session_state:
         st.session_state.selected_ability_query = None
 
+    if "selected_game_query" not in st.session_state:
+        st.session_state.selected_game_query = None
+
     st.title("PokeAgent")
     st.caption("Kanto Pokédex — #001 to #151")
 
-    ( 
+    (
         pokedex_tab,
         team_tab,
         moves_tab,
         abilities_tab,
+        games_tab,
         items_tab,
-     ) = st.tabs(
+    ) = st.tabs(
         [
             "Pokédex",
             "Team Builder",
             "Moves",
             "Abilities",
+            "Games",
             "Items",
         ]
     )
@@ -405,6 +427,55 @@ def main() -> None:
                             "Base Experience",
                             pokemon.base_experience,
                         )
+
+                st.divider()
+
+                st.subheader("Game Availability")
+
+                selected_game_label = st.selectbox(
+                    "Check game availability",
+                    options=list(
+                        GAME_AVAILABILITY_OPTIONS.keys()
+                    ),
+                    key=f"availability_game_{pokemon.id}",
+                )
+
+                selected_game_group = (
+                    GAME_AVAILABILITY_OPTIONS[
+                        selected_game_label
+                    ]
+                )
+
+                try:
+                    with st.spinner(
+                        "Checking game availability..."
+                    ):
+                        available = (
+                            game_data_service
+                            .is_pokemon_available(
+                                pokemon.id,
+                                selected_game_group,
+                            )
+                        )
+
+                    if available:
+                        st.success(
+                            f"{format_label(pokemon.name)} "
+                            f"is available in "
+                            f"{selected_game_label}."
+                        )
+                    else:
+                        st.warning(
+                            f"{format_label(pokemon.name)} "
+                            f"is not available in "
+                            f"{selected_game_label}."
+                        )
+
+                except PokeAPIError as exc:
+                    st.warning(
+                        "Game availability could not "
+                        f"be checked: {exc}"
+                    )
 
                 # -------------------------------------------------
                 # BASE STATS
@@ -1221,6 +1292,100 @@ def main() -> None:
                     f"Could not load ability: {exc}"
                 )
     
+    # ---------------------------------------------------------
+    # GAMES TAB
+    # ---------------------------------------------------------
+
+    with games_tab:
+        st.subheader("Game Version Groups")
+
+        st.write(
+            "Search for a Pokémon game version group "
+            "by name or PokéAPI ID."
+        )
+
+        with st.form("game_search"):
+            game_query = st.text_input(
+                "Version group name or ID",
+                placeholder=(
+                    "Example: red blue or scarlet violet"
+                ),
+            )
+
+            game_submitted = st.form_submit_button(
+                "Search Game"
+            )
+
+        if st.button(
+            "Clear Game",
+            key="clear_game",
+        ):
+            st.session_state.selected_game_query = None
+
+        if game_submitted:
+            game_query = game_query.strip()
+
+            if not game_query:
+                st.session_state.selected_game_query = None
+
+                st.warning(
+                    "Please enter a version group name or ID."
+                )
+
+            else:
+                st.session_state.selected_game_query = (
+                    game_query
+                )
+
+        selected_game_query = (
+            st.session_state.selected_game_query
+        )
+
+        if selected_game_query:
+            try:
+                game_group = (
+                    game_data_service.find_version_group(
+                        selected_game_query
+                    )
+                )
+
+                st.divider()
+
+                st.header(
+                    format_label(game_group.name)
+                )
+
+                generation = (
+                    game_group.generation
+                    .removeprefix("generation-")
+                    .upper()
+                )
+
+                st.metric(
+                    "Generation",
+                    generation,
+                )
+
+                st.write("**Versions:**")
+
+                version_columns = st.columns(
+                    len(game_group.versions)
+                )
+
+                for column, version in zip(
+                    version_columns,
+                    game_group.versions,
+                ):
+                    with column:
+                        st.info(
+                            format_label(version)
+                        )
+
+            except PokeAPIError as exc:
+                st.error(
+                    f"Could not load game data: {exc}"
+                )
+
     # ---------------------------------------------------------
     # ITEMS TAB
     # ---------------------------------------------------------

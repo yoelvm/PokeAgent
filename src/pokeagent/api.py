@@ -232,3 +232,50 @@ def get_ability(name_or_id: str | int) -> dict[str, Any]:
         raise PokeAPIError(
             f"PokéAPI request failed: {exc}"
         ) from exc
+def get_version_group(name_or_id: str | int) -> dict[str, Any]:
+    """Get Pokémon version-group data from PokéAPI."""
+    identifier = "-".join(
+        str(name_or_id).strip().lower().split()
+    )
+
+    if not identifier:
+        raise ValueError(
+            "Version group name or ID cannot be empty."
+        )
+
+    url = f"{BASE_URL}/version-group/{identifier}"
+
+    try:
+        response = requests.get(
+            url,
+            timeout=DEFAULT_TIMEOUT,
+        )
+
+        if response.status_code == 404:
+            raise PokeAPIError(
+                f"Version group '{name_or_id}' was not found."
+            )
+
+        response.raise_for_status()
+        return response.json()
+
+    except PokeAPIError:
+        raise
+    except requests.Timeout as exc:
+        raise PokeAPIError(
+            "PokéAPI request timed out."
+        ) from exc
+    except requests.RequestException as exc:
+        raise PokeAPIError(
+            f"PokéAPI request failed: {exc}"
+        ) from exc
+def get_pokemon_version_names(
+    name_or_id: str | int,
+) -> list[str]:
+    """Return version names where a Pokémon appears."""
+    data = get_pokemon(name_or_id)
+
+    return [
+        entry["version"]["name"]
+        for entry in data.get("game_indices", [])
+    ]
