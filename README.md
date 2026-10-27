@@ -61,6 +61,11 @@ This project is designed as a foundation for future features such as a visual we
 - Level-based Pokémon stat calculation
 - Nature-aware final stat calculation
 - Competitive stat builder
+- Pokémon game version-group data
+- Generation and version-group information
+- Pokémon availability checks by game
+- Natural game searches such as `red blue` and `scarlet violet`
+- Game version membership checks
 
 ## Requirements
 
@@ -145,6 +150,11 @@ The web interface currently supports:
 - IV and EV editors
 - Live calculated Pokémon stats
 - EV usage meter and limit warnings
+- Games tab
+- Direct version-group lookup
+- Generation and version display
+- Pokémon game availability selector
+- Availability messages inside Pokémon profiles
 
 
 ## Commands
@@ -297,7 +307,6 @@ Planned future improvements include:
 
 - Additional search and filtering options
 - Johto and later generations
-- Game-specific Pokémon data
 - Pokémon legality tools
 - AI-powered natural-language interaction
 
