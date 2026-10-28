@@ -34,7 +34,9 @@ def test_get_pokemon_by_name_is_case_insensitive() -> None:
 
 
 def test_missing_pokemon_returns_none() -> None:
-    repo = PokemonRepository()
+    repository = PokemonRepository()
 
-    assert repo.get_by_id(999) is None
-    assert repo.get_by_name("inventadomon") is None
+    assert repository.get_by_id(9999) is None
+    assert repository.get_by_name(
+        "definitely-not-a-pokemon"
+    ) is None
