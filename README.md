@@ -14,7 +14,7 @@ This project is designed as a foundation for future features such as a visual we
 - Filter Pokémon by type and minimum base stat
 - Display height and weight in readable units
 - Display abilities and base stats
-- Local Kanto Pokédex with 151 Pokémon
+- National Pokédex
 - Data obtained from PokéAPI
 - Automated tests with pytest
 - Modular architecture prepared for future expansion
@@ -25,7 +25,7 @@ This project is designed as a foundation for future features such as a visual we
 - Colored Pokémon type badges
 - Visual base-stat bars and total base stats
 - Kanto evolution chains
-- Evolution data filtered to the original 151 Pokémon
+- Evolution data filtered to the all Pokémons
 - Pokémon type weaknesses, resistances and immunities
 - Dual-type defensive effectiveness calculations
 - Pokémon move data
@@ -66,6 +66,15 @@ This project is designed as a foundation for future features such as a visual we
 - Pokémon availability checks by game
 - Natural game searches such as `red blue` and `scarlet violet`
 - Game version membership checks
+- National Pokédex support beyond the all Pokémons
+- Lightweight National Pokédex index
+- Dynamic PokéAPI loading for non-local Pokémon
+- Remote Pokémon caching
+- Search by National Pokédex name or ID
+- National Pokédex browsing by one or two types
+- Dual-type intersection searches
+- Browse Pokémon by generation
+- Support for Generations I through IX
 
 ## Requirements
 
@@ -155,6 +164,11 @@ The web interface currently supports:
 - Generation and version display
 - Pokémon game availability selector
 - Availability messages inside Pokémon profiles
+- National Pokédex search
+- Dual-type Pokémon filtering
+- National type result tables
+- Browse by generation
+- Open Pokémon directly from type and generation results
 
 
 ## Commands
@@ -289,17 +303,18 @@ The current automated test suite contains 14 tests.
 
 ## Data
 
-The local Kanto Pokédex contains Pokémon with National Pokédex IDs:
+The National Pokédex contains Pokémon with National Pokédex IDs:
 
 ```text
 #001 Bulbasaur
 ...
-#151 Mew
+#1025 Pecharunt
 ```
 
 Pokémon data is sourced from PokéAPI and simplified before being stored locally.
 
-> Note: PokeAgent currently uses modern PokéAPI metadata for the 151 Kanto species. This means some information, such as abilities or modern typings, may differ from the original Generation I game mechanics.
+> Note: PokeAgent currently uses modern PokéAPI metadata for the 151 Kanto species. This means some information, such as abilities or modern typings, may differ from the original Generation I game mechanics. Now have all pokemons.
+
 
 ## Roadmap
 

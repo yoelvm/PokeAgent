@@ -271,7 +271,7 @@ def get_version_group(name_or_id: str | int) -> dict[str, Any]:
         ) from exc
 def get_pokemon_version_names(
     name_or_id: str | int,
-) -> list[str]:
+ ) -> list[str]:
     """Return version names where a Pokémon appears."""
     data = get_pokemon(name_or_id)
 
@@ -279,3 +279,81 @@ def get_pokemon_version_names(
         entry["version"]["name"]
         for entry in data.get("game_indices", [])
     ]
+def get_pokemon_species_list() -> list[dict[str, Any]]:
+    """Return the complete Pokémon species index from PokéAPI."""
+    url = f"{BASE_URL}/pokemon-species"
+
+    try:
+        count_response = requests.get(
+            url,
+            params={"limit": 1},
+            timeout=DEFAULT_TIMEOUT,
+        )
+
+        count_response.raise_for_status()
+
+        count = count_response.json()["count"]
+
+        response = requests.get(
+            url,
+            params={
+                "limit": count,
+                "offset": 0,
+            },
+            timeout=DEFAULT_TIMEOUT,
+        )
+
+        response.raise_for_status()
+
+        return response.json()["results"]
+
+    except requests.Timeout as exc:
+        raise PokeAPIError(
+            "PokéAPI request timed out."
+        ) from exc
+    except requests.RequestException as exc:
+        raise PokeAPIError(
+            f"PokéAPI request failed: {exc}"
+        ) from exc
+def get_generation(
+    name_or_id: str | int,
+ ) -> dict[str, Any]:
+    """Get Pokémon generation data from PokéAPI."""
+    identifier = "-".join(
+        str(name_or_id).strip().lower().split()
+    )
+
+    if not identifier:
+        raise ValueError(
+            "Generation name or ID cannot be empty."
+        )
+
+    url = f"{BASE_URL}/generation/{identifier}"
+
+    try:
+        response = requests.get(
+            url,
+            timeout=DEFAULT_TIMEOUT,
+        )
+
+        if response.status_code == 404:
+            raise PokeAPIError(
+                f"Generation '{name_or_id}' was not found."
+            )
+
+        response.raise_for_status()
+
+        return response.json()
+
+    except PokeAPIError:
+        raise
+
+    except requests.Timeout as exc:
+        raise PokeAPIError(
+            "PokéAPI request timed out."
+        ) from exc
+
+    except requests.RequestException as exc:
+        raise PokeAPIError(
+            f"PokéAPI request failed: {exc}"
+        ) from exc

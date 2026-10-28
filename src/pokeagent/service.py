@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from pokeagent.api import (
+    get_generation,
+    get_type,
+)
 from pokeagent.models import Pokemon
 from pokeagent.repository import PokemonRepository
 from pokeagent.type_effectiveness import (
@@ -22,19 +26,37 @@ class PokedexService:
     def __init__(self, repository: PokemonRepository | None = None) -> None:
         self.repository = repository or PokemonRepository()
 
-    def find_pokemon(self, query: str | int) -> Pokemon | None:
-        """Find a Pokémon by Pokédex ID or name."""
-        if isinstance(query, int):
-            return self.repository.get_by_id(query)
-
+    def find_pokemon(
+        self,
+        query: str | int,
+     ) -> Pokemon | None:
+        """Find a Pokémon by name or National Pokédex ID."""
         normalized_query = "-".join(
-          str(query).strip().lower().replace(".", "").split()
+            str(query)
+            .strip()
+            .lower()
+            .replace(".", "")
+            .split()
         )
 
-        if normalized_query.isdigit():
-            return self.repository.get_by_id(int(normalized_query))
+        if not normalized_query:
+            return None
 
-        return self.repository.get_by_name(normalized_query)
+        if normalized_query.isdigit():
+            pokemon_id = int(
+                normalized_query
+            )
+
+            if pokemon_id < 1:
+                return None
+
+            return self.repository.get_by_id(
+                pokemon_id
+            )
+
+        return self.repository.get_by_name(
+            normalized_query
+        )
 
     def find_by_type(self, pokemon_type: str) -> list[Pokemon]:
         """Return all Pokémon matching a given type."""
@@ -80,3 +102,93 @@ class PokedexService:
         return calculate_type_effectiveness(
             pokemon.types
         )
+    def find_by_types(
+        self,
+        primary_type: str,
+        secondary_type: str | None = None,
+     ) -> list[dict[str, int | str]]:
+        """Find National Pokédex Pokémon by one or two types."""
+        primary = primary_type.strip().lower()
+
+        primary_data = get_type(
+            primary
+        )
+
+        primary_names = {
+            entry["pokemon"]["name"]
+            for entry in primary_data["pokemon"]
+        }
+
+        matching_names = primary_names
+
+        if secondary_type:
+            secondary = secondary_type.strip().lower()
+
+            if secondary != primary:
+                secondary_data = get_type(
+                    secondary
+                )
+
+                secondary_names = {
+                    entry["pokemon"]["name"]
+                    for entry in secondary_data["pokemon"]
+                }
+
+                matching_names = (
+                    primary_names
+                    & secondary_names
+                )
+
+        results = []
+
+        for name in matching_names:
+            index_entry = (
+                self.repository
+                .get_index_entry_by_name(name)
+            )
+
+            if index_entry is not None:
+                results.append(
+                    {
+                        "id": index_entry["id"],
+                        "name": index_entry["name"],
+                    }
+                )
+
+        results.sort(
+            key=lambda pokemon: pokemon["id"]
+        )
+
+        return results
+    def find_by_generation(
+        self,
+        generation: str | int,
+     ) -> list[dict[str, int | str]]:
+        """Find National Pokédex Pokémon by generation."""
+        data = get_generation(
+            generation
+        )
+
+        results = []
+
+        for species in data["pokemon_species"]:
+            index_entry = (
+                self.repository
+                .get_index_entry_by_name(
+                    species["name"]
+                )
+            )
+
+            if index_entry is not None:
+                results.append(
+                    {
+                        "id": index_entry["id"],
+                        "name": index_entry["name"],
+                    }
+                )
+
+        results.sort(
+            key=lambda pokemon: pokemon["id"]
+        )
+
+        return results
