@@ -825,7 +825,7 @@ def render_pokemon_profile(
 
 def render_team_builder(
     team_service: TeamService,
-) -> None:
+ ) -> None:
     """Render the Team Builder tab."""
     st.subheader("Team Builder")
 
@@ -918,11 +918,11 @@ def render_team_builder(
                 st.rerun()
 
     # ---------------------------------------------------------
-    # STAT BUILDER
+    # ADVANCED SET BUILDER
     # ---------------------------------------------------------
 
     st.divider()
-    st.subheader("Stat Builder")
+    st.subheader("Advanced Set Builder")
 
     selected_member_id = st.selectbox(
         "Configure Pokémon",
@@ -939,7 +939,7 @@ def render_team_builder(
                 )
             )
         ),
-        key="stat_builder_member",
+        key="advanced_set_member",
     )
 
     selected_member = next(
@@ -948,33 +948,236 @@ def render_team_builder(
         if member.id == selected_member_id
     )
 
-    settings_col1, settings_col2 = st.columns(2)
+    pokemon_set = team.get_set(
+        selected_member_id
+    )
+
+    if pokemon_set is None:
+        st.error(
+            "This Pokémon does not have a set."
+        )
+        return
+
+    st.markdown(
+        f"### #{selected_member.id:04d} "
+        f"{format_label(selected_member.name)}"
+    )
+
+    # ---------------------------------------------------------
+    # ABILITY
+    # ---------------------------------------------------------
+
+    st.write("### Ability")
+
+    ability_options = (
+        selected_member.abilities
+    )
+
+    current_ability_index = 0
+
+    if (
+        pokemon_set.ability
+        in ability_options
+    ):
+        current_ability_index = (
+            ability_options.index(
+                pokemon_set.ability
+            )
+        )
+
+    selected_ability = st.selectbox(
+        "Selected Ability",
+        options=ability_options,
+        index=current_ability_index,
+        format_func=lambda ability: (
+            (
+                f"{format_label(ability)} "
+                "(Hidden Ability)"
+            )
+            if ability
+            in selected_member.hidden_abilities
+            else format_label(ability)
+        ),
+        key=(
+            f"set_ability_"
+            f"{selected_member.id}"
+        ),
+    )
+
+    ability_success, ability_message = (
+        team_service.set_ability(
+            team,
+            selected_member.id,
+            selected_ability,
+        )
+    )
+
+    if not ability_success:
+        st.warning(
+            ability_message
+        )
+
+    # ---------------------------------------------------------
+    # HELD ITEM
+    # ---------------------------------------------------------
+
+    st.write("### Held Item")
+
+    with st.form(
+        f"held_item_form_"
+        f"{selected_member.id}"
+    ):
+        item_query = st.text_input(
+            "Held Item",
+            value=(
+                pokemon_set.item
+                or ""
+            ),
+            placeholder=(
+                "Example: leftovers, "
+                "light ball or choice scarf"
+            ),
+        )
+
+        item_submitted = (
+            st.form_submit_button(
+                "Save Held Item"
+            )
+        )
+
+    if item_submitted:
+        try:
+            if item_query.strip():
+                (
+                    item_success,
+                    item_message,
+                ) = team_service.set_item(
+                    team,
+                    selected_member.id,
+                    item_query,
+                )
+
+            else:
+                (
+                    item_success,
+                    item_message,
+                ) = team_service.clear_item(
+                    team,
+                    selected_member.id,
+                )
+
+            if item_success:
+                st.success(
+                    item_message
+                )
+            else:
+                st.warning(
+                    item_message
+                )
+
+        except PokeAPIError as exc:
+            st.error(
+                f"Could not load item: {exc}"
+            )
+
+    if pokemon_set.item:
+        st.caption(
+            "Currently equipped: "
+            f"{format_label(pokemon_set.item)}"
+        )
+    else:
+        st.caption(
+            "No held item equipped."
+        )
+
+    # ---------------------------------------------------------
+    # LEVEL + NATURE
+    # ---------------------------------------------------------
+
+    st.write("### Level & Nature")
+
+    settings_col1, settings_col2 = (
+        st.columns(2)
+    )
 
     with settings_col1:
         level = st.number_input(
             "Level",
             min_value=1,
             max_value=100,
-            value=50,
+            value=pokemon_set.level,
             step=1,
-            key=f"level_{selected_member.id}",
+            key=(
+                f"set_level_"
+                f"{selected_member.id}"
+            ),
+        )
+
+    nature_options = list(
+        NATURES.keys()
+    )
+
+    nature_index = 0
+
+    if pokemon_set.nature in nature_options:
+        nature_index = (
+            nature_options.index(
+                pokemon_set.nature
+            )
         )
 
     with settings_col2:
         nature = st.selectbox(
             "Nature",
-            options=list(NATURES.keys()),
-            index=list(NATURES.keys()).index(
-                "hardy"
-            ),
+            options=nature_options,
+            index=nature_index,
             format_func=format_label,
-            key=f"nature_{selected_member.id}",
+            key=(
+                f"set_nature_"
+                f"{selected_member.id}"
+            ),
         )
+
+    level_success, level_message = (
+        team_service.set_level(
+            team,
+            selected_member.id,
+            int(level),
+        )
+    )
+
+    if not level_success:
+        st.error(
+            level_message
+        )
+
+    nature_success, nature_message = (
+        team_service.set_nature(
+            team,
+            selected_member.id,
+            nature,
+        )
+    )
+
+    if not nature_success:
+        st.error(
+            nature_message
+        )
+
+    # Refresh reference after updates.
+    pokemon_set = team.get_set(
+        selected_member.id
+    )
+
+    # ---------------------------------------------------------
+    # IVs
+    # ---------------------------------------------------------
 
     st.write("### IVs")
 
     iv_columns = st.columns(3)
-    ivs = {}
+
+    ivs: dict[str, int] = {}
 
     for index, stat_name in enumerate(
         STAT_NAMES
@@ -984,18 +1187,32 @@ def render_team_builder(
                 f"{format_label(stat_name)} IV",
                 min_value=0,
                 max_value=31,
-                value=31,
+                value=(
+                    pokemon_set
+                    .training
+                    .ivs
+                    .get(
+                        stat_name,
+                        31,
+                    )
+                ),
                 step=1,
                 key=(
-                    f"iv_{selected_member.id}_"
+                    f"set_iv_"
+                    f"{selected_member.id}_"
                     f"{stat_name}"
                 ),
             )
 
+    # ---------------------------------------------------------
+    # EVs
+    # ---------------------------------------------------------
+
     st.write("### EVs")
 
     ev_columns = st.columns(3)
-    evs = {}
+
+    evs: dict[str, int] = {}
 
     for index, stat_name in enumerate(
         STAT_NAMES
@@ -1005,22 +1222,37 @@ def render_team_builder(
                 f"{format_label(stat_name)} EV",
                 min_value=0,
                 max_value=252,
-                value=0,
+                value=(
+                    pokemon_set
+                    .training
+                    .evs
+                    .get(
+                        stat_name,
+                        0,
+                    )
+                ),
                 step=4,
                 key=(
-                    f"ev_{selected_member.id}_"
+                    f"set_ev_"
+                    f"{selected_member.id}_"
                     f"{stat_name}"
                 ),
             )
 
-    total_evs = sum(evs.values())
+    total_evs = sum(
+        evs.values()
+    )
 
     st.write(
-        f"**Total EVs: {total_evs} / 510**"
+        f"**Total EVs: "
+        f"{total_evs} / 510**"
     )
 
     st.progress(
-        min(total_evs / 510, 1.0)
+        min(
+            total_evs / 510,
+            1.0,
+        )
     )
 
     if total_evs > 510:
@@ -1028,47 +1260,200 @@ def render_team_builder(
             f"EV limit exceeded by "
             f"{total_evs - 510} points."
         )
+
     elif total_evs == 510:
         st.success(
             "Maximum EV total reached."
         )
+
     else:
         st.caption(
-            f"{510 - total_evs} EVs remaining."
+            f"{510 - total_evs} "
+            "EVs remaining."
         )
 
-    training = StatTraining(
-        ivs=ivs,
-        evs=evs,
+    training_success, training_message = (
+        team_service.set_training(
+            team,
+            selected_member.id,
+            ivs,
+            evs,
+        )
     )
 
-    try:
-        calculated_stats = (
-            calculate_pokemon_stats(
-                selected_member,
-                training,
-                int(level),
-                nature,
-            )
+    # Invalid values are shown but are NOT
+    # stored inside the PokemonSet.
+    if not training_success:
+        st.error(
+            training_message
         )
 
-        st.write("### Calculated Stats")
+    pokemon_set = team.get_set(
+        selected_member.id
+    )
 
-        stat_columns = st.columns(3)
+    # ---------------------------------------------------------
+    # CALCULATED STATS
+    # ---------------------------------------------------------
 
-        for index, stat_name in enumerate(
-            STAT_NAMES
+    if training_success:
+        try:
+            calculated_stats = (
+                calculate_pokemon_stats(
+                    selected_member,
+                    pokemon_set.training,
+                    pokemon_set.level,
+                    pokemon_set.nature,
+                )
+            )
+
+            st.write(
+                "### Calculated Stats"
+            )
+
+            stat_columns = (
+                st.columns(3)
+            )
+
+            for index, stat_name in enumerate(
+                STAT_NAMES
+            ):
+                with stat_columns[
+                    index % 3
+                ]:
+                    st.metric(
+                        format_label(
+                            stat_name
+                        ),
+                        calculated_stats[
+                            stat_name
+                        ],
+                    )
+
+        except ValueError as exc:
+            st.error(
+                str(exc)
+            )
+
+    # ---------------------------------------------------------
+    # MOVES
+    # ---------------------------------------------------------
+
+    st.divider()
+
+    st.write(
+        f"### Moves "
+        f"({len(pokemon_set.moves)} / 4)"
+    )
+
+    if len(pokemon_set.moves) < 4:
+        with st.form(
+            f"add_move_form_"
+            f"{selected_member.id}"
         ):
-            with stat_columns[index % 3]:
-                st.metric(
-                    format_label(stat_name),
-                    calculated_stats[
-                        stat_name
-                    ],
+            move_query = st.text_input(
+                "Add Move",
+                placeholder=(
+                    "Example: earthquake"
+                ),
+            )
+
+            move_submitted = (
+                st.form_submit_button(
+                    "Add Move"
+                )
+            )
+
+        if move_submitted:
+            move_query = (
+                move_query.strip()
+            )
+
+            if not move_query:
+                st.warning(
+                    "Please enter a move."
                 )
 
-    except ValueError as exc:
-        st.error(str(exc))
+            else:
+                try:
+                    (
+                        move_success,
+                        move_message,
+                    ) = team_service.add_move(
+                        team,
+                        selected_member.id,
+                        move_query,
+                    )
+
+                    if move_success:
+                        st.success(
+                            move_message
+                        )
+                    else:
+                        st.warning(
+                            move_message
+                        )
+
+                except PokeAPIError as exc:
+                    st.error(
+                        f"Could not load move: "
+                        f"{exc}"
+                    )
+
+    else:
+        st.info(
+            "This Pokémon already has "
+            "four moves."
+        )
+
+    pokemon_set = team.get_set(
+        selected_member.id
+    )
+
+    if pokemon_set.moves:
+        for move_index, move_name in enumerate(
+            list(pokemon_set.moves),
+            start=1,
+        ):
+            move_col, remove_col = (
+                st.columns([5, 1])
+            )
+
+            with move_col:
+                st.write(
+                    f"**{move_index}. "
+                    f"{format_label(move_name)}**"
+                )
+
+            with remove_col:
+                if st.button(
+                    "Remove",
+                    key=(
+                        f"remove_set_move_"
+                        f"{selected_member.id}_"
+                        f"{move_name}"
+                    ),
+                ):
+                    (
+                        remove_success,
+                        remove_message,
+                    ) = team_service.remove_move(
+                        team,
+                        selected_member.id,
+                        move_name,
+                    )
+
+                    if not remove_success:
+                        st.warning(
+                            remove_message
+                        )
+
+                    st.rerun()
+
+    else:
+        st.caption(
+            "No moves selected."
+        )
 
     # ---------------------------------------------------------
     # TEAM TYPE ANALYSIS

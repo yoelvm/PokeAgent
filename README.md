@@ -75,6 +75,16 @@ This project is designed as a foundation for future features such as a visual we
 - Dual-type intersection searches
 - Browse Pokémon by generation
 - Support for Generations I through IX
+- Advanced Team Builder
+- Independent competitive set for each team member
+- Ability selection per Pokémon
+- Held item support
+- Up to four moves per Pokémon
+- Move compatibility validation
+- Persistent level and nature
+- Persistent IV and EV training
+- Competitive stat calculation from saved sets
+- Team member set persistence when switching between Pokémon
 
 ## Requirements
 
@@ -169,6 +179,14 @@ The web interface currently supports:
 - National type result tables
 - Browse by generation
 - Open Pokémon directly from type and generation results
+- Advanced Set Builder
+- Ability selector
+- Held Item editor
+- Level and Nature controls
+- Persistent IV and EV editor
+- Calculated competitive stats
+- Four-move set editor
+- Invalid and duplicate move protection
 
 
 ## Commands

@@ -122,36 +122,76 @@ class Item:
 class Team:
     """Represent a Pokémon team."""
 
-    members: list[Pokemon] = field(default_factory=list)
+    members: list[Pokemon] = field(
+        default_factory=list
+    )
+
+    sets: dict[int, PokemonSet] = field(
+        default_factory=dict
+    )
 
     @property
     def is_full(self) -> bool:
         """Return whether the team already has six Pokémon."""
         return len(self.members) >= 6
 
-    def add(self, pokemon: Pokemon) -> bool:
-        """Add a Pokémon if the team is not full."""
+    def add(
+        self,
+        pokemon: Pokemon,
+    ) -> bool:
+        """Add a Pokémon and create its competitive set."""
         if self.is_full:
             return False
 
-        if any(member.id == pokemon.id for member in self.members):
+        if any(
+            member.id == pokemon.id
+            for member in self.members
+        ):
             return False
 
-        self.members.append(pokemon)
+        self.members.append(
+            pokemon
+        )
+
+        self.sets[pokemon.id] = PokemonSet(
+            pokemon=pokemon
+        )
+
         return True
 
-    def remove(self, pokemon_id: int) -> bool:
-        """Remove a Pokémon from the team by Pokédex ID."""
-        for index, member in enumerate(self.members):
+    def remove(
+        self,
+        pokemon_id: int,
+    ) -> bool:
+        """Remove a Pokémon and its competitive set."""
+        for index, member in enumerate(
+            self.members
+        ):
             if member.id == pokemon_id:
                 del self.members[index]
+
+                self.sets.pop(
+                    pokemon_id,
+                    None,
+                )
+
                 return True
 
         return False
 
+    def get_set(
+        self,
+        pokemon_id: int,
+    ) -> PokemonSet | None:
+        """Return the competitive set for a team member."""
+        return self.sets.get(
+            pokemon_id
+        )
+
     def clear(self) -> None:
-        """Remove all Pokémon from the team."""
+        """Remove all Pokémon and their sets."""
         self.members.clear()
+        self.sets.clear()
 @dataclass
 class Ability:
     """Represent a Pokémon ability."""
@@ -208,6 +248,43 @@ class StatTraining:
                 "Total EVs cannot exceed 510."
             )
 
+@dataclass
+class PokemonSet:
+    """Represent the competitive set of a team member."""
+
+    pokemon: Pokemon
+    level: int = 50
+    nature: str = "hardy"
+    ability: str | None = None
+    item: str | None = None
+    moves: list[str] = field(default_factory=list)
+    training: StatTraining = field(
+        default_factory=StatTraining
+    )
+
+    def __post_init__(self) -> None:
+        """Set sensible competitive defaults."""
+        if (
+            self.ability is None
+            and self.pokemon.abilities
+        ):
+            self.ability = (
+                self.pokemon.abilities[0]
+            )
+
+        if not self.training.ivs:
+            self.training.ivs = {
+                stat_name: 31
+                for stat_name
+                in self.pokemon.stats
+            }
+
+        if not self.training.evs:
+            self.training.evs = {
+                stat_name: 0
+                for stat_name
+                in self.pokemon.stats
+            }
 @dataclass
 class GameVersionGroup:
     """Represent a Pokémon game version group."""
