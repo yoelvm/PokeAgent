@@ -18,6 +18,49 @@ class MoveService:
         data = get_move(name_or_id)
 
         return Move.from_dict(data)
+    def get_all_learnable_move_names(
+        self,
+        pokemon_query: str | int,
+     ) -> list[str]:
+        """Return every move listed for a Pokémon."""
+        pokemon_data = get_pokemon(
+            pokemon_query
+        )
+
+        move_names = {
+            move_data["move"]["name"]
+            for move_data
+            in pokemon_data.get(
+                "moves",
+                [],
+            )
+        }
+
+        return sorted(
+            move_names
+        )
+    def can_learn_move(
+        self,
+        pokemon_query: str | int,
+        move_name: str,
+     ) -> bool:
+        """Return whether a Pokémon can learn a move."""
+        normalized_move = (
+            move_name.strip()
+            .lower()
+            .replace(" ", "-")
+        )
+
+        learnable_moves = (
+            self.get_all_learnable_move_names(
+                pokemon_query
+            )
+        )
+
+        return (
+            normalized_move
+            in learnable_moves
+        )
     def get_learnable_move_names(
         self,
         pokemon_query: str | int,
