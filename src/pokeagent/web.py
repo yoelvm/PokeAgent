@@ -12,6 +12,7 @@ from pokeagent.natures import NATURES
 from pokeagent.service import PokedexService
 from pokeagent.stat_calculator import calculate_pokemon_stats
 from pokeagent.team_service import TeamService
+from pokeagent.legality_service import LegalityService
 
 
 TYPE_COLORS = {
@@ -825,6 +826,7 @@ def render_pokemon_profile(
 
 def render_team_builder(
     team_service: TeamService,
+    legality_service: LegalityService,
  ) -> None:
     """Render the Team Builder tab."""
     st.subheader("Team Builder")
@@ -1548,6 +1550,224 @@ def render_team_builder(
             f"be loaded: {exc}"
         )
 
+    # ---------------------------------------------------------
+    # LEGALITY CHECK
+    # ---------------------------------------------------------
+
+    st.divider()
+
+    st.subheader("Legality Check")
+
+    st.caption(
+        "Validate the current team against "
+        "a specific Pokémon game."
+    )
+
+    legality_game_label = st.selectbox(
+        "Game for legality check",
+        options=list(
+            VERSION_GROUP_OPTIONS.keys()
+        ),
+        key="legality_game",
+    )
+
+    legality_version_group = (
+        VERSION_GROUP_OPTIONS[
+            legality_game_label
+        ]
+    )
+
+    if st.button(
+        "Check Team Legality",
+        key="check_team_legality",
+        use_container_width=True,
+    ):
+        try:
+            with st.spinner(
+                "Checking team legality..."
+            ):
+                legality_result = (
+                    legality_service.validate_team(
+                        team,
+                        legality_version_group,
+                    )
+                )
+
+            # ---------------------------------------------
+            # LEGALITY SUMMARY
+            # ---------------------------------------------
+
+            member_results = list(
+                legality_result.member_results.values()
+            )
+
+            legal_members = sum(
+                1
+                for member_result in member_results
+                if member_result.is_legal
+            )
+
+            illegal_members = (
+                len(member_results)
+                - legal_members
+            )
+
+            team_error_count = len(
+                legality_result.errors
+            )
+
+            team_warning_count = len(
+                legality_result.warnings
+            )
+
+            member_error_count = sum(
+                len(member_result.errors)
+                for member_result in member_results
+            )
+
+            member_warning_count = sum(
+                len(member_result.warnings)
+                for member_result in member_results
+            )
+
+            total_errors = (
+                team_error_count
+                + member_error_count
+            )
+
+            total_warnings = (
+                team_warning_count
+                + member_warning_count
+            )
+
+            st.write(
+                "### Team Legality Summary"
+            )
+
+            if legality_result.is_legal:
+                st.success(
+                    f"✅ Team is legal for "
+                    f"{legality_game_label}."
+                )
+            else:
+                st.error(
+                    f"❌ Team is not legal for "
+                    f"{legality_game_label}."
+                )
+
+            summary_col1, summary_col2 = (
+                st.columns(2)
+            )
+
+            with summary_col1:
+                st.metric(
+                    "Errors",
+                    total_errors,
+                )
+
+                st.metric(
+                    "Legal Pokémon",
+                    legal_members,
+                )
+
+            with summary_col2:
+                st.metric(
+                    "Warnings",
+                    total_warnings,
+                )
+
+                st.metric(
+                    "Illegal Pokémon",
+                    illegal_members,
+                )
+
+            # ---------------------------------------------
+            # TEAM-LEVEL ISSUES
+            # ---------------------------------------------
+
+            if legality_result.issues:
+                st.write(
+                    "### Team Issues"
+                )
+
+                for issue in legality_result.issues:
+                    if issue.severity == "error":
+                        st.error(
+                            f"❌ {issue.message}"
+                        )
+                    else:
+                        st.warning(
+                            f"⚠️ {issue.message}"
+                        )
+
+            # ---------------------------------------------
+            # MEMBER RESULTS
+            # ---------------------------------------------
+
+            st.write(
+                "### Pokémon Legality"
+            )
+
+            for member in team.members:
+                member_result = (
+                    legality_result
+                    .member_results
+                    .get(member.id)
+                )
+
+                if member_result is None:
+                    continue
+
+                with st.expander(
+                    (
+                        f"#{member.id:04d} "
+                        f"{format_label(member.name)} "
+                        f"— "
+                        f"{'Legal' if member_result.is_legal else 'Illegal'}"
+                    ),
+                    expanded=(
+                        not member_result.is_legal
+                    ),
+                 ):
+                    member_errors = len(
+                        member_result.errors
+                    )
+
+                    member_warnings = len(
+                        member_result.warnings
+                    )
+
+                    if member_result.is_legal:
+                        st.success(
+                            "✅ No legality errors detected."
+                        )
+                    else:
+                        st.error(
+                            f"❌ {member_errors} legality "
+                            f"error(s) detected."
+                        )
+
+                    if member_warnings:
+                        st.warning(
+                            f"⚠️ {member_warnings} warning(s) "
+                            "detected."
+                        )
+
+                    for issue in member_result.issues:
+                        if issue.severity == "error":
+                            st.error(
+                                f"❌ {issue.message}"
+                            )
+                        else:
+                            st.warning(
+                                f"⚠️ {issue.message}"
+                            )
+
+        except PokeAPIError as exc:
+            st.error(
+                "Legality check could not "
+                f"be completed: {exc}"
+            )
     st.divider()
 
     if st.button(
@@ -1967,6 +2187,7 @@ def main() -> None:
     team_service = TeamService()
     ability_service = AbilityService()
     game_data_service = GameDataService()
+    legality_service = LegalityService()
 
     if "selected_pokemon_id" not in st.session_state:
         st.session_state.selected_pokemon_id = None
@@ -2116,8 +2337,9 @@ def main() -> None:
 
     with team_tab:
         render_team_builder(
-            team_service
-        )
+          team_service,
+          legality_service,
+    )
 
     # ---------------------------------------------------------
     # MOVES TAB
