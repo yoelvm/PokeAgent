@@ -285,6 +285,153 @@ class PokemonSet:
                 for stat_name
                 in self.pokemon.stats
             }
+
+@dataclass
+class LegalityIssue:
+    """Represent one legality problem or warning."""
+
+    severity: str
+    code: str
+    message: str
+
+
+@dataclass
+class LegalityResult:
+    """Represent the legality result for a Pokémon set."""
+
+    issues: list[LegalityIssue] = field(
+        default_factory=list
+    )
+
+    @property
+    def is_legal(self) -> bool:
+        """Return True when no legality errors exist."""
+        return not any(
+            issue.severity == "error"
+            for issue in self.issues
+        )
+
+    @property
+    def errors(self) -> list[LegalityIssue]:
+        """Return legality errors."""
+        return [
+            issue
+            for issue in self.issues
+            if issue.severity == "error"
+        ]
+
+    @property
+    def warnings(self) -> list[LegalityIssue]:
+        """Return legality warnings."""
+        return [
+            issue
+            for issue in self.issues
+            if issue.severity == "warning"
+        ]
+
+    def add_error(
+        self,
+        code: str,
+        message: str,
+    ) -> None:
+        """Add a legality error."""
+        self.issues.append(
+            LegalityIssue(
+                severity="error",
+                code=code,
+                message=message,
+            )
+        )
+
+    def add_warning(
+        self,
+        code: str,
+        message: str,
+     ) -> None:
+        """Add a legality warning."""
+        self.issues.append(
+            LegalityIssue(
+                severity="warning",
+                code=code,
+                message=message,
+            )
+        )
+
+@dataclass
+class TeamLegalityResult:
+    """Represent the legality result for a complete team."""
+
+    member_results: dict[int, LegalityResult] = field(
+        default_factory=dict
+    )
+
+    issues: list[LegalityIssue] = field(
+        default_factory=list
+    )
+
+    @property
+    def is_legal(self) -> bool:
+        """Return True when the team has no legality errors."""
+        team_has_errors = any(
+            issue.severity == "error"
+            for issue in self.issues
+        )
+
+        members_are_legal = all(
+            result.is_legal
+            for result in self.member_results.values()
+        )
+
+        return (
+            not team_has_errors
+            and members_are_legal
+        )
+
+    @property
+    def errors(self) -> list[LegalityIssue]:
+        """Return team-level legality errors."""
+        return [
+            issue
+            for issue in self.issues
+            if issue.severity == "error"
+        ]
+
+    @property
+    def warnings(self) -> list[LegalityIssue]:
+        """Return team-level legality warnings."""
+        return [
+            issue
+            for issue in self.issues
+            if issue.severity == "warning"
+        ]
+
+    def add_error(
+        self,
+        code: str,
+        message: str,
+    ) -> None:
+        """Add a team-level legality error."""
+        self.issues.append(
+            LegalityIssue(
+                severity="error",
+                code=code,
+                message=message,
+            )
+        )
+
+    def add_warning(
+        self,
+        code: str,
+        message: str,
+    ) -> None:
+        """Add a team-level legality warning."""
+        self.issues.append(
+            LegalityIssue(
+                severity="warning",
+                code=code,
+                message=message,
+            )
+        )
 @dataclass
 class GameVersionGroup:
     """Represent a Pokémon game version group."""

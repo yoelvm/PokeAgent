@@ -85,6 +85,16 @@ This project is designed as a foundation for future features such as a visual we
 - Persistent IV and EV training
 - Competitive stat calculation from saved sets
 - Team member set persistence when switching between Pokémon
+- Pokémon set legality engine
+- Game-specific Pokémon availability validation
+- Version-group move legality checks
+- Ability validation
+- Held item validation
+- Level, IV and EV legality checks
+- Duplicate and excessive move detection
+- Complete Pokémon set validation
+- Complete team legality validation
+- Error and warning severity system
 
 ## Requirements
 
@@ -187,6 +197,12 @@ The web interface currently supports:
 - Calculated competitive stats
 - Four-move set editor
 - Invalid and duplicate move protection
+- Team legality checker
+- Game selector for legality validation
+- Legal / Illegal status per Pokémon
+- Team-level legality summary
+- Error and warning counters
+- Expandable legality details for each team member
 
 
 ## Commands
